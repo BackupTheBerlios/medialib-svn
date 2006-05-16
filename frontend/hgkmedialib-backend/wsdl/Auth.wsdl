@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HGKMediaLib_AuthInterface"
+targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php">
+
+  <documentation>Central authentication interface for SOAP access
+  to the backend Copyright 2005-2006 Pierre Spring, mediagonal Ag
+  &lt;pierre.spring@mediagonal.ch&gt; See the enclosed file COPYING
+  for license information (GPL). If you did not receive this file,
+  see http://www.fsf.org/copyleft/gpl.html. Interface declaring the
+  signatures of methods being called by the HGKZ video library's
+  frontend component. Presumably there will be two classes that
+  implement this interface: one on the serving side (connected to a
+  SOAP server), and another one on the requesting side (connected
+  to a SOAP client generated from the server's WSDL). Generally
+  speaking, there are two kinds of methods: get*() and dump*().
+  This interface only specifies methods request data from the
+  metadata database as built by Winet. Queries to the storage mgmt
+  and other components are specified elsewhere, although they might
+  fit in here from the API user's perspective.</documentation>
+  <portType name="HGKMediaLib_AuthInterfacePort">
+    <operation name="dropSession">
+      <input message="tns:dropSessionRequest" />
+      <output message="tns:dropSessionResponse" />
+    </operation>
+    <operation name="getAnonymousSession">
+      <input message="tns:getAnonymousSessionRequest" />
+      <output message="tns:getAnonymousSessionResponse" />
+    </operation>
+    <operation name="getDomains">
+      <input message="tns:getDomainsRequest" />
+      <output message="tns:getDomainsResponse" />
+    </operation>
+    <operation name="getSession">
+      <input message="tns:getSessionRequest" />
+      <output message="tns:getSessionResponse" />
+    </operation>
+    <operation name="getUserData">
+      <input message="tns:getUserDataRequest" />
+      <output message="tns:getUserDataResponse" />
+    </operation>
+  </portType>
+  <binding name="HGKMediaLib_AuthInterfaceBinding"
+  type="tns:HGKMediaLib_AuthInterfacePort">
+    <soap:binding style="rpc"
+    transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="dropSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php#dropSession" />
+    </operation>
+    <operation name="getAnonymousSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php#getAnonymousSession" />
+    </operation>
+    <operation name="getDomains">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php#getDomains" />
+    </operation>
+    <operation name="getSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php#getSession" />
+    </operation>
+    <operation name="getUserData">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php#getUserData" />
+    </operation>
+  </binding>
+  <service name="HGKMediaLib_AuthInterfaceService">
+    <port name="tns:HGKMediaLib_AuthInterfacePort"
+    binding="tns:HGKMediaLib_AuthInterfaceBinding">
+      <soap:address location="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Auth.php" />
+    </port>
+  </service>
+  <message name="dropSessionRequest">
+    <part name="session" type="xsd:anyType" />
+  </message>
+  <documentation>The dropSession() methode unvalidates the given
+  $session ID</documentation>
+  <message name="dropSessionResponse">
+    <part name="dropSessionReturn" type="xsd:boolean" />
+  </message>
+  <message name="getAnonymousSessionRequest" />
+  <documentation>Get session for an unknown, anonymous
+  user</documentation>
+  <message name="getAnonymousSessionResponse">
+    <part name="getAnonymousSessionReturn" type="xsd:anyType" />
+  </message>
+  <documentation>session id</documentation>
+  <message name="getDomainsRequest" />
+  <documentation>get a list of available domains</documentation>
+  <message name="getDomainsResponse">
+    <part name="getDomainsReturn" type="soap-enc:Array" />
+  </message>
+  <documentation>of string</documentation>
+  <message name="getSessionRequest">
+    <part name="userName" type="xsd:string" />
+    <part name="password" type="xsd:string" />
+    <part name="domain" type="xsd:string" />
+  </message>
+  <documentation>Authenticate using standard
+  credentials</documentation>
+  <message name="getSessionResponse">
+    <part name="getSessionReturn" type="xsd:anyType" />
+  </message>
+  <documentation>session Id</documentation>
+  <message name="getUserDataRequest">
+    <part name="session" type="xsd:anyType" />
+  </message>
+  <documentation>Get user data (real name, name of institution,
+  etc.)</documentation>
+  <message name="getUserDataResponse">
+    <part name="getUserDataReturn" type="xsd:anyType" />
+  </message>
+  <documentation>user data.</documentation>
+</definitions>

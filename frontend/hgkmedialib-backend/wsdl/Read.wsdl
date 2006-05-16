@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Read.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HGKMediaLib_ReadingInterface"
+targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Read.php">
+
+  <documentation>Interface for reading SOAP access to the backend
+  Copyright 2005-2006 Pierre Spring, mediagonal Ag
+  &lt;pierre.spring@mediagonal.ch&gt; See the enclosed file COPYING
+  for license information (GPL). If you did not receive this file,
+  see http://www.fsf.org/copyleft/gpl.html. Interface declaring the
+  signatures of methods being called by the HGKZ video library's
+  frontend component. The frontend is supposed to be read-only, as
+  Presumably there will be two classes that implement this
+  interface: one on the serving side (connected to a SOAP server),
+  and another one on the requesting side (connected to a SOAP
+  client generated from the server's WSDL). Generally speaking,
+  there are two kinds of methods: find*() and get*(). While finder
+  methods always return a list of pointers to entities, getter
+  methods always return a data structure representing an entity.
+  This interface only specifies methods request data from the
+  metadata database as built by Winet. Queries to the storage mgmt
+  and other components are specified elsewhere, although they might
+  fit in here from the API user's perspective.</documentation>
+  <portType name="HGKMediaLib_ReadingInterfacePort">
+    <operation name="find">
+      <input message="tns:findRequest" />
+      <output message="tns:findResponse" />
+    </operation>
+    <operation name="getInformation">
+      <input message="tns:getInformationRequest" />
+      <output message="tns:getInformationResponse" />
+    </operation>
+  </portType>
+  <binding name="HGKMediaLib_ReadingInterfaceBinding"
+  type="tns:HGKMediaLib_ReadingInterfacePort">
+    <soap:binding style="rpc"
+    transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="find">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Read.php#find" />
+    </operation>
+    <operation name="getInformation">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Read.php#getInformation" />
+    </operation>
+  </binding>
+  <service name="HGKMediaLib_ReadingInterfaceService">
+    <port name="tns:HGKMediaLib_ReadingInterfacePort"
+    binding="tns:HGKMediaLib_ReadingInterfaceBinding">
+      <soap:address location="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapServer/Read.php" />
+    </port>
+  </service>
+  <message name="findRequest">
+    <part name="sessionId" type="xsd:int" />
+    <part name="clauses" type="soap-enc:Array" />
+    <part name="sortOrder" type="soap-enc:Array" />
+    <part name="limit" type="xsd:int" />
+    <part name="lang" type="xsd:string" />
+  </message>
+  <documentation>Find using an extended query. One clause looks
+  like this: array( 'connector' =&gt; {AND, OR} 'subject' =&gt;
+  '..' // name of property to be matched against, set is to be
+  defined 'predicate' =&gt; {'=', '~', '!=', '!~'} // equal, like,
+  not equal, not like 'object' =&gt; '..' // property value to
+  match ) $clauses can contain any number of these. The $sortOrder
+  is an associative array, with the lable as key, and the order as
+  value, e.g. array( 'insertionDate' =&gt; 'descending' 'workTitle'
+  =&gt; 'ascending' )</documentation>
+  <message name="findResponse">
+    <part name="findReturn" type="soap-enc:Array" />
+  </message>
+  <documentation>of HGKMediaLib_Struct_Entity
+  objects</documentation>
+  <message name="getInformationRequest">
+    <part name="sessionId" type="xsd:int" />
+    <part name="id" type="xsd:anyType" />
+    <part name="lang" type="xsd:string" />
+  </message>
+  <documentation>The getInformation() method returns a
+  HGKMediaLib_Struct_Information object</documentation>
+  <message name="getInformationResponse">
+    <part name="getInformationReturn" type="xsd:struct" />
+  </message>
+  <documentation>HGKMediaLib_Struct_Information</documentation>
+</definitions>
