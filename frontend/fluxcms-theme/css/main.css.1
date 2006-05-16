@@ -1,0 +1,390 @@
+html,body {
+    height: 100%;
+}
+
+body{
+    font-family:Geneva, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    margin:0px;
+    color:#444444;
+}
+
+#dummy{
+	z-index: 99;
+	background: none;
+	position: absolute;
+}
+
+a, a:link, a:visited {
+    color: #444444;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #444444;
+    text-decoration: underline;
+}
+
+
+a.addToPlaylist{
+	
+}
+
+
+a.play{
+	
+}
+
+a.topLink{
+
+}
+
+
+input{
+    font-size: 10px;
+}
+
+#container {
+    height: 100%;
+    width: 1026px;
+}
+
+input.search {
+    border:1px solid #444444;
+    margin-right: 3px;
+    width: 101px;
+}
+input.button {
+    font-weight: bold;
+    border:1px solid #666666;
+    background-color: #666666;
+    color: #FFFFFF;
+    margin-left: 3px;
+    width: 68px;
+
+}
+
+#topnavi li {
+    margin: 0px;
+    list-style:none;
+}
+
+.fullAndFloat {
+    margin: 0px;
+    padding: 0px;
+    float:left;
+    height:100%;
+}
+
+.fullDiv{
+    padding-left: 10px;
+    padding-right: 10px;
+    height:100%;
+}
+
+.spacer {   
+    height: 100%;
+    float:left;
+    width:1px;
+    border-right: 1px solid #444444;
+}
+
+#topnavi a, #topnavi a:hover, #topnavi a:link, #topnavi a:visited {
+    color:#FFFFFF;
+}
+#topnavi{
+    color:#FFFFFF;
+}
+
+#topnavi, #newsImages {
+    height: 100%;
+    width: 164px;
+    float: left;
+    border-left: 7px solid white;
+    border-right: 6px solid white;  
+}
+
+#informationImages {
+    text-align: center;
+    height: 100%;
+    width: 185px;
+    float: left;
+}
+
+#topnavi {
+    background-repeat:no-repeat;
+    background-image:url("/fluxcms/themes/3-cols/images/logo.jpg");
+    padding-top: 240px;
+}
+
+#newsImages, #informationImages, #information{
+    background-color:#E0E0E0;
+}
+
+#informationView{
+    display:none;
+}
+
+#information {
+    width: 370px;
+}
+
+#informationBrowse{
+    background-color:#909090;
+}
+#informationFiles{
+    background-color:#404040;
+	}
+
+#informationFiles, #informationBrowse{
+    font-weight: bold;
+    color: #FFFFFF;    
+	width: 175px;
+    height: 40px;
+    float: left;
+	padding-left: 10px;
+}
+
+#informationPicture {
+    clear: both;
+    padding-top: 10px;
+    padding-right: 12px;
+}
+
+#informationPlay {
+    float:left;
+}
+
+#informationPath {
+    float: right;
+    padding-right: 12px;
+}
+
+#informationPlaylist {
+    cursor: move;
+    clear: both;
+}
+
+#playlistView {
+    /*display: none;*/
+	position:absolute;
+	top: 0px;
+	left: 1000px;
+    background-color: #FFFFFF;
+}
+
+#playlist {
+    width: 175px;
+}
+
+
+#playlist li{
+	padding: 0px;
+
+}
+
+#playlist div.spacer{
+	background:none;
+}
+
+#playlist span{
+	margin:0px;
+	padding: 0px;
+}
+
+/* Tree-Nodes....*/
+/* closed */
+#playlist li.node_closed_first{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed_first.png);
+	background-repeat:no-repeat;
+}
+
+#playlist li.node_closed_last{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed_last.png);
+	background-repeat:no-repeat;
+}
+#playlist li.node_closed{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed.png);
+	background-repeat:no-repeat;
+}
+/* open */
+#playlist li.node_open_first{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_open_first.png);
+	background-repeat:no-repeat;
+}
+
+#playlist li.node_open_last{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_open_last.png);
+	background-repeat:no-repeat;
+}
+#playlist li.node_open{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/node_open.png);
+	background-repeat:no-repeat;
+}
+/* .................*/
+
+
+/* Tree-Leafs....*/
+#playlist li.leaf_last{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/leaf_last.png);
+	background-repeat:no-repeat;
+	height:16px;
+	
+}
+#playlist li.leaf_first{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/leaf_first.png);
+	background-repeat:no-repeat;
+	height:16px;
+}
+#playlist li.leaf{
+	background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png);
+	background-repeat:no-repeat;
+	height:16px;
+}
+
+/* .................*/
+
+
+#playlist li, #playlist ul {
+	list-style-type: none;
+}
+
+#playlist li{
+	margin-left:-20px;
+	padding-left: 20px;
+}
+
+#playlistData{
+	margin-top: -10px;
+}
+
+#playlistBrowser {
+    background-color:#96B802;
+	padding-left: 10px;
+}
+
+.browser {
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-top: 10px;
+    width: 100%;
+    height: 40px;
+}
+
+.serachBrowser {
+    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+}
+
+#collectionsSearch, #newsSearch, #titleSearch {
+    overflow: hidden;
+    height: 100%;
+    width: 179px;
+    border-left: 3px solid #FFFFFF;
+    border-right: 3px solid #FFFFFF;
+    float: left;
+}
+
+#titleSearch a, #collectionsSearch a, #newsSearch a {
+    text-decoration: none;
+}
+
+#titleSearch a.mouseOn, #collectionsSearch a.mouseOn, #newsSearch a.mouseOn {
+    color: #FFFFFF;
+}
+
+#collectionsSearch a.mouseOff {
+    color: #777E84;
+}
+
+#titleSearch a.mouseOff, #newsSearch a.mouseOff {
+    color: #444444;
+}
+
+#collectionsSearch dl {
+    margin-top: 0px;
+    width: 1000px;
+}
+
+#newsSearch ul, #titleSearch ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#newsSearch li, #titleSearch li {
+    margin-top: 0px;
+    width: 1000px;
+}
+
+#collectionsSearch dd {
+    padding-left: 20px;
+    margin-left: 0px;
+}
+
+#collectionsSearch dd a{
+    color: #777E84;
+}
+
+
+#collectionsSearch dt.withSeparation {
+    padding-top: 5px;
+    margin-top: 5px;
+    border-top-style: dotted;
+    border-top-width: 1px;
+}
+
+#content{
+    height:100%;
+    float: left;
+    border-left: 7px solid white;
+    border-right: 6px solid white;  
+}
+
+#topnavi{
+    background-color:#E31D10;
+}
+
+#overallSearch, #login{
+    margin-top: 20px;
+}
+
+
+#overallSearch input, #login input, #login select {
+    margin-top: 5px;
+    /*border: 1px white solid;*/
+    width: 162px;
+}
+
+#content{
+}
+
+
+.envelop{
+    padding-top: 10px;
+}
+
+#content h1{
+    margin-top: 0px;
+}
+
+h1 {
+    margin-top:0px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight:bold;
+}
+h2, h3, h4, h5{
+    font-size: 11px;
+    font-weight:bold;
+    margin:0px;
+    margin-bottom: 3px;
+}
+
+p {
+    font-size: 11px;
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-bottom: 1px dotted #444444;
+}
+
