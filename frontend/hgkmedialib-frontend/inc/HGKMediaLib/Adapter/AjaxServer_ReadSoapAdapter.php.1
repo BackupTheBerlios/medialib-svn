@@ -1,0 +1,146 @@
+<?php
+if (session_id() == '') {
+    session_start();        
+}
+
+/**
+ * adapter between the AjaxServer and the Soap Class for reading
+ * 
+ * @uses Adapter
+ * @package HGKMediaLib_Frontend
+ * @version $id$
+ * @copyright mediagonal a.g.
+ * @author Pierre Spring <pierre.spring@mediagonal.ch> 
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
+
+    public function __construct(){
+        parent::__construct($this);
+    }        
+
+    public function getByCollection($string)
+    {
+        if (is_null($string)){
+            // clause searching for TODAY
+            $result = $this->_soapClient->find($this->_getSoapSession(), 'clause TODAY', 'ordered', 20, 'de'); 
+        } else {
+            $result = $this->_soapClient->find($this->_getSoapSession(), 'clause Collection', 'ordered', 20, 'de'); 
+        }
+
+        // if there is no result, return null
+        if (!$result) return NULL;
+
+        // remove non-relevant information and group results by collections
+        for ($i = 0; $i < count($result); $i++){
+            $groupedResult[$result[$i]->collection][] = 
+                array(
+                    "title" => $result[$i]->title,
+                    "id" => $result[$i]->id
+                );
+        }
+
+        // ... and sort results by collectons
+        ksort($groupedResult);
+        
+        return $groupedResult;
+        
+    }
+
+    public function getByDate($date)
+    {
+        $result = $this->_soapClient->find($this->_getSoapSession(), 'clause', 'ordered', 20, 'de'); 
+        
+        // remove non-relevant information
+        for ($i = 0; $i < count($result); $i++){
+            $result[$i] = array("date" => $result[$i]->date, "title" => $result[$i]->title, "id" => $result[$i]->id);
+        }
+        return $result;
+    }
+
+    public function getByTitle($string)
+    {
+        if (is_null($string)){
+            // clause searching for TODAY
+            $result = $this->_soapClient->find($this->_getSoapSession(), 'today', 'ordered by collections', 20, 'de');
+        } else {
+            $result = $this->_soapClient->find($this->_getSoapSession(), 'string', 'ordered by collections', 20, 'de');
+        }
+        // remove non-relevant information
+        for ($i = 0; $i < count($result); $i++){
+            $result[$i] = array("title" => $result[$i]->title, "id" => $result[$i]->id);
+        }
+        return $result;
+    }
+    
+    public function getFiles($entityID)
+    {
+        $this->_cacheInformation($entityID);
+        return $_SESSION['info' . $entityID]['files'];
+    }
+
+    public function getInformation($entityID)
+    {
+        $this->_cacheInformation($entityID);
+        return array('path' => $_SESSION['info' . $entityID]['path'], 'data' => $_SESSION['info' . $entityID]['data'], 'VBM' => $_SESSION['info' . $entityID]['VBM'], 'COV' => $_SESSION['info' . $entityID]['COV']);
+    }
+    
+    public function getSubTree($entityID)
+    {
+        $this->_cacheInformation($entityID);
+        return $_SESSION['info' . $entityID]['SubTree'];
+    }
+    
+    private function _cacheInformation($entityID)
+    {
+        if (!isset($_SESSION['info' . $entityID])) {
+            $soapResult = $this->_soapClient->getInformation($this->_getSoapSession(), $entityID);
+            if ($soapResult) {
+                $_SESSION['info' . $entityID] = array();
+                $_SESSION['info' . $entityID]['VBM'] = array();
+                $_SESSION['info' . $entityID]['COV'] = array();
+                // build subtree and get VBM and COV information
+                $_SESSION['info' . $entityID]['SubTree'] = $this->_subTree($soapResult, $entityID);
+                if (count($_SESSION['info' . $entityID]['VBM']) > 1 && count($_SESSION['info' . $entityID]['COV']) > 0) {
+                    $_SESSION['info' . $entityID]['VBM'] = $_SESSION['info' . $entityID]['COV']; 
+                }
+                if (count($_SESSION['info' . $entityID]['COV']) > 1) $_SESSION['info' . $entityID]['COV'] = $_SESSION['info' . $entityID]['COV'][0]; 
+                // gather files, path and data
+                foreach ($soapResult->informationBlocks as $infoBlock) {
+                    $_SESSION['info' . $entityID]['data'][$infoBlock->title] = array();
+                    $_SESSION['info' . $entityID]['files'][$infoBlock->title] = array();
+                    $_SESSION['info' . $entityID]['path'][$infoBlock->title] = $infoBlock->id;
+                    foreach ($infoBlock->files as $file) {
+                        $_SESSION['info' . $entityID]['files'][$infoBlock->title][] = array($file->name => $file->urn);
+                    }
+                    foreach ($infoBlock->data as $data) {
+                        $_SESSION['info' . $entityID]['data'][$infoBlock->title][] = array("label" => $data->label, "name" => $data->name, "vlaue" => $data->value);
+                    } 
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private function _subTree($object, $entityID)
+    {
+        $result = array();
+        //foreach ($object->subtree as $entity)  $result[] = $this->_subTree($entity);
+        if (isset($object->subtree[0]->title)) {
+            foreach ($object->subtree as $entity)  $result[$entity->title] = $this->_subTree($entity, $entityID);
+        }
+        if (isset($object->subtree[0]->name)) {
+            foreach ($object->subtree as $entity) {
+                $result[$entity->name] = NULL;
+                if (strstr($entity->name, 'VBM') !== false) $_SESSION['info' . $entityID]['VBM'][] = $entity->urn;
+                if (strstr($entity->name, 'COV') !== false) $_SESSION['info' . $entityID]['COV'][] = $entity->urn;
+            }
+        }
+        return $result;
+    }
+}
+
+
+?>

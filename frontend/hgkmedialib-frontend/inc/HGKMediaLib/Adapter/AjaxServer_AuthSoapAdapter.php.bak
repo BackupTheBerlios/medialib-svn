@@ -1,0 +1,90 @@
+<?php
+if (session_id() == '') {
+    session_start();        
+}
+
+class HGKMediaLib_AjaxServer_AuthSoapAdapter extends Adapter {
+
+    protected $_soapClient;
+            
+    public function __construct(){
+        $this->_soapClient = SoapClientFactory::getClient(HKGMEDIALIB_WSDL_BASEDIR . 'Auth.wsdl');
+    }        
+
+	/**
+	* @param string $userName
+	* @param string $password
+	* @param string $domain
+	* @return int $sessionId
+	*/
+	public function getSession($userName, $password, $domain){
+        try {
+            
+        
+        $soapSession = $this->_soapClient->getSession($userName, $password, $domain);
+        } catch (Exception $e) {
+            var_export($e) ;
+        }
+        if ($soapSession != 1){
+            $_SESSION['soapSession'] = $soapSession;
+            $_SESSION['logged'] = true;
+            return true;
+        }
+        return -1;
+	
+	}
+	
+	/**
+	* @return boolean
+	*/
+	public function dropSession(){
+        if (!isset($_SESSION['soapSession']) || !isset($_SESSION['logged'])){
+            // todo
+            return false;
+        }elseif($_SESSION['logged'] != true){
+            // todo
+            return false;
+        }
+        $_SESSION['soapSession'] = $this->_soapClient->getAnonymousSession();
+        $_SESSION['logged'] = false;
+        return true;
+	
+	}
+	
+	/**
+	* @return array of strings 
+	*/
+	public function getDomains(){
+	}
+
+	/**
+	* @return boolean // 
+	* @param void
+	*/
+	public function getLoginState(){
+        if (!isset($_SESSION['soapSession']) || !isset($_SESSION['logged'])){
+            // TODO
+            return false;
+        }else{
+            return $_SESSION['logged'];
+        }
+	
+	}
+
+	/**
+	* Get user data (real name, name of institution, etc.)
+	*
+	* @return array
+	*/
+	public function getUserData(){
+        if (!isset($_SESSION['soapSession'])){
+            //TODO
+            return false;
+        }else{
+            return $this->_soapClient->getUserData($_SESSION['soapSession']);
+        }
+	
+	}
+
+}
+?>
