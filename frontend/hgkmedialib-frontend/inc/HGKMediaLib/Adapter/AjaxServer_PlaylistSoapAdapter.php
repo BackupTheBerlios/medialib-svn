@@ -14,7 +14,9 @@ class HGKMediaLib_AjaxServer_PlaylistSoapAdapter extends Adapter {
     {
         $result = $this->_soapClient->addEntityToPlaylist($this->_getSoapSession(), $playlist, $entityID, $position);
         if($result !== false){
-            $_SESSION['playlists'][$playlist] = $this->_addItemToArrayAtPosition($_SESSION['playlists'][$playlist], $position, $result, $entityID); 
+            $uniquID = 'playlistitem_' . $entityID . '_' . mt_rand();
+            $_SESSION['playlists'][$playlist] = $this->_addItemToArrayAtPosition($_SESSION['playlists'][$playlist], $position, $result, $uniquID); 
+            return $uniquID;
         }
         return $result;
     }
@@ -46,8 +48,12 @@ class HGKMediaLib_AjaxServer_PlaylistSoapAdapter extends Adapter {
 
     public function removeEntityFromPlaylist($playlistID, $entityID)
     {
-        $result = $this->_soapClient->removeEntityFromPlaylist($this->_getSoapSession(), $playlistID, $entityID);
-        if (isset($_SESSION['playlists'][$playlistID][$entityID])) unset($_SESSION['playlists'][$playlistID][$entityID]);
+        $lalala = explode('_', $entityID) ;
+        $result = $this->_soapClient->removeEntityFromPlaylist($this->_getSoapSession(), $playlistID, $lalala[1]);
+        if (isset($_SESSION['playlists'][$playlistID][$entityID])) {
+            unset($_SESSION['playlists'][$playlistID][$entityID]);   
+            return $entityID;
+        }
         return $result;
     }
 
@@ -66,7 +72,9 @@ class HGKMediaLib_AjaxServer_PlaylistSoapAdapter extends Adapter {
 
     public function updatePlaylist($playlistID, $idArray, $nameArray)
     {
-        $result = $this->_soapClient->updatePlaylist($playlistID, $idArray);
+        $serverIDArray = array();
+        foreach($idArray as $val) $serverIDArray[] = $val;
+        $result = $this->_soapClient->updatePlaylist($playlistID, $serverIDArray);
         //file_put_contents('/srv/www/htdocs/hgkmedialib-frontend/inc/HGKMediaLib/Adapter/test', "lalal" . var_export($array));
         if($result){
             $array = array();
@@ -95,7 +103,9 @@ class HGKMediaLib_AjaxServer_PlaylistSoapAdapter extends Adapter {
             if ($soapResult) {
                 for ($i = 0; $i < count($soapResult); $i++) {
                     $_SESSION['playlistNames'][$soapResult[$i]->id] =  $soapResult[$i]->name;
-                    $_SESSION['playlists'][$soapResult[$i]->id] =  $soapResult[$i]->array;
+                    foreach($soapResult[$i]->array as $key => $value){;
+                        $_SESSION['playlists'][$soapResult[$i]->id]['playlistitem_' . $key . '_' . mt_rand()] = $value;
+                    }
                 }
             }
         }

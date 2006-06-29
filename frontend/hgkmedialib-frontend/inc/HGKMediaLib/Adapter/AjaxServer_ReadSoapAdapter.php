@@ -21,11 +21,30 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
 
     public function getByCollection($string)
     {
+        $order = array(
+            'Titel' => 'asc'
+        );
         if (is_null($string)){
             // clause searching for TODAY
-            $result = $this->_soapClient->find($this->_getSoapSession(), 'clause TODAY', 'ordered', 20, 'de'); 
+            $today = array(
+                array(
+                    'connector' => '',
+                    'subject' => 'Titel',
+                    'predicate' => '~',
+                    'object' => 'Mord'
+                )
+            );
+            $result = $this->_soapClient->find($this->_getSoapSession(), $today, $order, 20, 'de'); 
         } else {
-            $result = $this->_soapClient->find($this->_getSoapSession(), 'clause Collection', 'ordered', 20, 'de'); 
+            $clause = array(
+                array(
+                    'connector' => '',
+                    'subject' => 'Titel',
+                    'predicate' => '~',
+                    'object' => $string
+                )
+            );
+            $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 20, 'de'); 
         }
 
         // if there is no result, return null
@@ -49,7 +68,18 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
 
     public function getByDate($date)
     {
-        $result = $this->_soapClient->find($this->_getSoapSession(), 'clause', 'ordered', 20, 'de'); 
+        $clause = array(
+            array(
+                'connector' => '',
+                'subject' => 'Titel',
+                'predicate' => '~',
+                'object' => 'Mord'
+            )
+        );
+        $order = array(
+            'Titel' => 'asc'
+        );
+        $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 20, 'de'); 
         
         // remove non-relevant information
         for ($i = 0; $i < count($result); $i++){
@@ -60,11 +90,30 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
 
     public function getByTitle($string)
     {
+        $order = array(
+            'Titel' => 'asc'
+        );
         if (is_null($string)){
             // clause searching for TODAY
-            $result = $this->_soapClient->find($this->_getSoapSession(), 'today', 'ordered by collections', 20, 'de');
+            $today = array(
+                array(
+                    'connector' => '',
+                    'subject' => 'Titel',
+                    'predicate' => '~',
+                    'object' => 'Mord'
+                )
+            );
+            $result = $this->_soapClient->find($this->_getSoapSession(), $today, $order, 20, 'de');
         } else {
-            $result = $this->_soapClient->find($this->_getSoapSession(), 'string', 'ordered by collections', 20, 'de');
+            $clause = array(
+                array(
+                    'connector' => '',
+                    'subject' => 'Titel',
+                    'predicate' => '~',
+                    'object' => $string 
+                )
+            );
+            $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 20, 'de');
         }
         // remove non-relevant information
         for ($i = 0; $i < count($result); $i++){
@@ -93,8 +142,20 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
 
     public function getThumbs()
     {
-        $result = $this->_soapClient->find($this->_getSoapSession(), 'today', 'ordered', 6, 'de');
+        $today = array(
+            array(
+                'connector' => '',
+                'subject' => 'Titel',
+                'predicate' => '~',
+                'object' => 'Mord'
+            )
+        );
+        $order = array(
+            'Titel' => 'asc'
+        );
+        $result = $this->_soapClient->find($this->_getSoapSession(), $today, $order, 6, 'de');
         for ($i = 0; $i < count($result); $i++){
+            if (is_null($result[$i]->coverMedia)) $result[$i]->coverMedia = "http://media1.hgkz.ch/tmp/pictures/1.jpg";
             $result[$i] = array("coverMedia" => $result[$i]->coverMedia, "id" => $result[$i]->id);
         }
         return $result;
@@ -102,13 +163,24 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
 
     public function search($search, $page = 1)
     {
-        $result = $this->_soapClient->find($this->_getSoapSession(), 'string', 'ordered', 100000, 'de');
+        $clause = array(
+            array(
+                'connector' => '',
+                'subject' => 'Titel',
+                'predicate' => '~',
+                'object' => $search
+            )
+        );
+        $order = array(
+            'Titel' => 'asc'
+        );
+        $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 0, 'de');
 
         $array = array();
         $array['result'] = array();
         $array['paging'] = array();
 
-        $array['paging']['pages']  = floor(count($result) / 10);
+        $array['paging']['pages']  = ceil(count($result) / 10);
         $array['paging']['page']   = ($page > $array['paging']['pages']) ? $array['paging']['pages'] : $page;
         $array['paging']['search'] = $search;
 
@@ -116,6 +188,7 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         $upperbound = ($array['paging']['pages'] == $array['paging']['page']) ? count($result) : $array['paging']['page'] * 10;
 
         for ($i = $lowerbound; $i < $upperbound; $i++){
+            if (is_null($result[$i]->coverMedia)) $result[$i]->coverMedia = "http://media1.hgkz.ch/tmp/pictures/1.jpg";
             $array['result'][] = array("coverMedia" => $result[$i]->coverMedia, "description" => $result[$i]->description, "title" => $result[$i]->title, "id" => $result[$i]->id);
         }
         return $array;

@@ -31,7 +31,7 @@ function renderInformation(type, data){
             var path = '';
             for (var entity in data){
                 path += ' / ';
-                path += '<a class="informationPathLink" href="#" onclick="get(\'information\', \'' + entity + '\'); return false;">';
+                path += '<a class="informationPathLink" href="" onclick="dhtmlHistory.add(\'detail='+entity+'\', {id: \''+ entity +'\'});get(\'information\', \'' + entity + '\'); return false;">';
                 path += data[entity];
                 path += '<a\>';
             }
@@ -43,22 +43,20 @@ function renderInformation(type, data){
         break;
 
         case 'play':
-            return '<a onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" class="playMovieLink"  href="#">Play movie<a>';
+            return '<a onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" class="playMovieLink"  href="">Play movie<a>';
         break;
 
         case 'playlist':
-               // return '<ul id="addItemContainer" ><li><span id=\'addSpan\'>test</span></li></ul>';
-                return '<a onmousedown="addToPlaylist(event); return false;" class="addToPlaylistLink" href="#">Add to playlist</a>';
-               // return '<a onclick="renderDraggablePlaylistItem(this, \''+data['id']+'\', \''+data['title']+'\');" class="addToPlaylistLink" href="#">Add to playlist</a>';
+               return '<a onmousedown="addToPlaylist(event, \''+ data['id'] +'\', \''+ data['title'] +'\'); return false;" onclick="return false;" class="addToPlaylistLink" href="">Add to playlist</a>';
         break;
 		
 		   
 		case 'browse':
-                return '<a onclick="get(\'subtree\', \''+data['id']+'\');" class="browser" href="#">Browse</a>';
+                return '<a onclick="get(\'subtree\', \''+data['id']+'\'); return false;" class="browser" href="">Browse</a>';
         break;
 		
 		case 'files':
-                return '<a onclick="get(\'files\', \''+data['id']+'\');" class="browser" href="#">Files</a>';
+                return '<a onclick="get(\'files\', \''+data['id']+'\'); return false;" class="browser" href="">Files</a>';
         break;
 		
 		case 'subtree':
@@ -136,15 +134,15 @@ function renderSearch(type, data)
         case 'thumbs':
             var result = '';
             data.each(function(entity, i){
-                result += '<img src="' + entity.coverMedia + '" onclick="get(\'information\', \'' + entity.id + '\'); return false;" class="img""\><br\>';
+                result += '<img src="' + entity.coverMedia + '" onclick="dhtmlHistory.add(\'detail='+ entity.id +'\', {id: \''+ entity.id +'\'});get(\'information\', \'' + entity.id + '\'); return false;" class="img""\><br\>';
             });
             return result;
         break;
         case 'advancedsearchbrowser':
-            var result = "Keyword: <br/>Displayed " + data.page + " of " + data.pages + "<br/>";
+            var result = "Keyword: \"" + data.search + "\"<br/>Displayed " + data.page + " of " + data.pages + "<br/>";
             for (var i = 1; i <= data.pages; i++)
             {
-                result += '<a href="#" onclick="page(' + i + ', \'' + data.search + '\'); return false;" class="';
+                result += '<a href="" onclick="page(' + i + ', \'' + data.search + '\'); return false;" class="';
                 result += (i == data.page) ? 'redlink' : 'whitelink' ;
                 result += '">' + i + '</a>';
             }
@@ -172,9 +170,9 @@ function renderSearch(type, data)
                         result += '<span>';
                         result += entity.description;
                         result += '</span><br/>';
-                        result += '<a href="#" onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" class="playMovieLink">Play This Movie</a>';
-                        result += '<a onclick="" class="addToPlaylistLink" href="#">Add to playlist</a>';
-                        result += '<a onclick="get(\'information\', \'' + entity.id + '\'); return false;" class="addToPlaylistLink" href="#">More Info</a>';
+                        result += '<a href="" onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" class="playMovieLink">Play This Movie</a>';
+                        result += '<a onmousedown="addToPlaylist(event, \''+ entity.id +'\', \''+ entity.title +'\'); return false;" class="addToPlaylistLink" href="">Add to playlist</a>';
+                        result += '<a onclick="dhtmlHistory.add(\'detail='+ entity.id +'\', {id: \''+ entity.id +'\'});get(\'information\', \'' + entity.id + '\'); return false;" class="addToPlaylistLink" href="">More Info</a>';
                         result += '</div>';
                     });
             return result;
@@ -192,7 +190,7 @@ function renderSearch(type, data)
                 result += '</dt>';
                 for (var i = 0; i < data[collection].length; ++i) {
                     result += '<dd class="redWithA">';
-                    result += '<a href="#" onclick="get(\'information\', \'' + data[collection][i]['id'] + '\'); return false;">';
+                    result += '<a href="" onclick="dhtmlHistory.add(\'detail='+data[collection][i]['id']+'\', {id: \''+data[collection][i]['id']+'\'});get(\'information\', \'' + data[collection][i]['id'] + '\'); return false;">';
                     result += data[collection][i]['title'];
                     result += '</a>';
                     result += '</dd>';
@@ -207,12 +205,12 @@ function renderSearch(type, data)
             var result = '<dl>';
             for (var i = 0; i < data.length; ++i) {
                 result += '<dt>';
-                result += '<a href="#" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
+                result += '<a href="" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
                 result += data[i]['date'];
                 result += '</a>';
                 result += '</dt>';
                 result += '<dd>';
-                result += '<a href="#" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
+                result += '<a href="" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
                 result += data[i]['title'];
                 result += '</a>';
                 result += '</dd>';
@@ -223,7 +221,7 @@ function renderSearch(type, data)
             var result = '<ul>';
             for (var i = 0; i < data.length; ++i) {
                 result += '<li class="redWithA">';
-                result += '<a href="#" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
+                result += '<a href="" onclick="dhtmlHistory.add(\'detail='+data[i]['id']+'\', {id: \''+data[i]['id']+'\'});get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
                 result += data[i]['date'];
                 result += '&nbsp;';
                 result += '&nbsp;';
@@ -240,7 +238,7 @@ function renderSearch(type, data)
             var result = '<ul>';
                 for (var i = 0; i < data.length; ++i) {
                     result += '<li class="redWithA">';
-                    result += '<a href="#" onclick="get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
+                    result += '<a href="" onclick="dhtmlHistory.add(\'detail='+data[i]['id']+'\', {id: \''+data[i]['id']+'\'});get(\'information\', \'' + data[i]['id'] + '\'); return false;">';
                     result += data[i]['title'];
                     result += '</a>';
                     result += '</li>';
@@ -259,7 +257,7 @@ function newPlaylist(type, data)
             return '<input id="newPlaylistInput" onkeypress="trapEnter(event, \'newPlayList\');" value="new playlist name" type="text"><input id="newPlaylistButton" value="new" onclick="playlist(\'create\',\'\',\'\',\'\'); return false;" type="button">';
         break;
         case 'create':
-            return "<a href=\"#\" onclick=\"playlist('new', '', '', '')\">New Playlist</a>";
+            return "<a href=\"\" onclick=\"playlist('new', '', '', ''); return false;\">New Playlist</a>";
         break;
         case 'add':
 //            var clone = document.getElementById('playlistTree').firstChild.cloneNode(true);
@@ -270,7 +268,29 @@ function newPlaylist(type, data)
             var clone = document.createElement("li");
             clone.setAttribute('id', 'playlist_' + data);
             clone.setAttribute('class', 'playlist');
-            clone.innerHTML = '<div class="buttons"><img class="playbutton button" onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" src="/fluxcms/themes/3-cols/images/play_inv.png"></img><img class="removebutton button" onclick="playlist(\'remove\',\''+ data +'\',\'\',\'\')" src="/fluxcms/themes/3-cols/images/remove_inv.png"></img></div><div class="connectors"><img class="nodeicon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed.png"/></div><span class="opener">' + document.getElementById("newPlaylistInput").value + '</span><hr/><ul><li>drop element here</li></ul>';
+            clone.innerHTML = 
+                '<div class="buttons">'+
+                    '<img class="playbutton button" onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" src="/fluxcms/themes/3-cols/images/play_inv.png"></img>'+
+                    '<img class="removebutton button" onclick="playlist(\'remove\',\''+ data +'\',\'\',\'\')" src="/fluxcms/themes/3-cols/images/remove_inv.png"></img>'+
+                '</div>'+
+                '<div class="connectors">'+
+                    '<img class="nodeicon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed.png"/>'+
+                '</div>'+
+                '<span class="opener">' + document.getElementById("newPlaylistInput").value + '</span><hr/>'+
+                '<ul>'+
+                    '<li class="playlistItem" style="display: none; visibility: hidden; bottom: 0px;" id="dummy_'+ Math.random() +'">'+
+                        '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                            '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                        '</div>'+
+                        '<span class="handle" style="cursor: move;">dummy</span>'+
+                    '</li>'+
+                    '<li id="dropper_'+ Math.random() +'">'+
+                        '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                            '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                        '</div>'+
+                        '<span>drop element here</span>'+
+                    '</li>'+
+                '</ul>';
             if(document.getElementById("playlistTree").innerHTML.length == 0){
                 document.getElementById("playlistTree").appendChild(clone);
             }else{
@@ -281,6 +301,7 @@ function newPlaylist(type, data)
     }
     
 }
+
 
 function renderPlaylists(data){
 	
@@ -304,12 +325,41 @@ function renderPlaylists(data){
 	for(i in data){	
 		result += '<li class="playlist" id="playlist_' + i + '"><div class="buttons"><img class="playbutton button" onclick="location.href=\'http://media1.hgkz.ch/hgkmedialib-frontend/smil/index.php\'; return false;" src="/fluxcms/themes/3-cols/images/play_inv.png"></img><img class="removebutton button" onclick="playlist(\'remove\',\''+i+'\',\'\',\'\')" src="/fluxcms/themes/3-cols/images/remove_inv.png"></img></div><div class="connectors"><img class="nodeicon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/node_closed.png"/></div><span class="opener">' +  data[i]['name'] + '</span><hr /><ul>';
 		
-		if(data[i]['playlist'].length != 0){
+		if(data[i]['playlist'].length == 0){
+            result +=
+                '<li class="playlistItem" style="display: none; visibility: hidden; bottom: 0px;" id="dummy_'+ Math.random() +'">'+
+                    '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                        '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                    '</div>'+
+                    '<span class="handle" style="cursor: move;">dummy</span>'+
+                '</li>'+
+                '<li id="dropper_'+ Math.random() +'">'+
+                    '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                        '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                    '</div>'+
+                    '<span>drop element here</span>'+
+                '</li>';
+        }else{
+		//	result += '<li id="dummy_'+ Math.random() +'" style="display:none; visibility:hidden;" class="playlistItem">'/*<div class="buttons"><img class="playbutton button" src="/fluxcms/themes/3-cols/images/play.png"></img><img class="removebutton button" src="/fluxcms/themes/3-cols/images/remove.png"></img></div>*/+'<div class="connectors"><img align="right" class="icon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png"/></div><span class="handle">dummy</span></li>';
+            result +=
+                '<li class="playlistItem" style="display: none; visibility: hidden; bottom: 0px;" id="dummy_'+ Math.random() +'">'+
+                    '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                        '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                    '</div>'+
+                    '<span class="handle" style="cursor: move;">dummy</span>'+
+                '</li>'+
+                '<li style="display: none; visibility: hidden;" id="dropper_'+ Math.random() +'">'+
+                    '<div class="connectors" style="width: 39px; margin-left: 0px; height: 13px;">'+
+                        '<img align="right" src="http://media1.hgkz.ch/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png" class="icon"/>'+
+                    '</div>'+
+                    '<span>drop element here</span>'+
+                '</li>';
 			for (var x in data[i]['playlist']){
 					s +=data[i]['playlist'][x] + ":\n";
 					
-					var uniqueid = "playlistitem_" + x + "_" + Math.random();
-					result += '<li class="playlistItem" id="'+ uniqueid +'"><div class="buttons"><img class="playbutton button" src="/fluxcms/themes/3-cols/images/play.png"></img><img class="removebutton button" src="/fluxcms/themes/3-cols/images/remove.png"></img></div><div class="connectors"><img align="right" class="icon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png"/></div><span class="handle">' + data[i]['playlist'][x] + "</span></li>";
+					var uniqueid =  x;
+					//var uniqueid = "playlistitem_" + x + "_" + Math.random();
+					result += '<li class="playlistItem" id="'+ uniqueid +'"><div class="buttons"><img class="playbutton button" src="/fluxcms/themes/3-cols/images/play.png"></img><img class="removebutton button" onclick="playlist(\'removeItem\',\''+ i +'\',\''+ x +'\',\'\')" src="/fluxcms/themes/3-cols/images/remove.png"></img></div><div class="connectors"><img align="right" class="icon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png"/></div><span class="handle">' + data[i]['playlist'][x] + "</span></li>";
 			}
 		}
 		result += "</ul></li>";
@@ -327,7 +377,7 @@ function setLogin(type, data){
     switch(type)
     {
         case 'login':
-            $('login').innerHTML = '<div class="wrapInput"><span><i18n:text>user</i18n:text></span><input type="text" id="loginFieldUser" onkeypress="trapEnter(event, \'login\');" value="user"/></div><br/><div class="wrapInput"><span><i17n:text>pass</i18n:text></span><input type="password" onkeypress="return trapEnter(event, \'login_pw\');" id="loginFieldPassword" value="password"/></div><br/><div class="wrapInput"><span><i18n:text>domain</i18n:text></span><select onkeypress="trapEnter(event, \'login\');" id="domainSelect"></select> </div><a href="#" class="advancedSearchLink" id="loginButton" onclick="auth(\'in\'); return false;"><i18n:text>login</i18n:text></a>'
+            $('login').innerHTML = '<div class="wrapInput"><span><i18n:text>user</i18n:text></span><input type="text" id="loginFieldUser" onkeypress="trapEnter(event, \'login\');" value="user"/></div><br/><div class="wrapInput"><span><i17n:text>pass</i18n:text></span><input type="password" onkeypress="return trapEnter(event, \'login_pw\');" id="loginFieldPassword" value="password"/></div><br/><div class="wrapInput"><span><i18n:text>domain</i18n:text></span><select onkeypress="trapEnter(event, \'login\');" id="domainSelect"></select> </div><a href="" class="advancedSearchLink" id="loginButton" onclick="auth(\'in\'); return false;"><i18n:text>login</i18n:text></a>'
             remoteAuth.getDomains();
         break;
         case 'domains':
@@ -340,7 +390,7 @@ function setLogin(type, data){
                 });
         break;
         case 'logged':
-        $('login').innerHTML = 'you are logged in as<br/>' + data.first + ' ' + data.last + '<a href="#" class="advancedSearchLink" id="loginButton" onclick="auth(\'out\'); return false;"><i18n:text>logout</i18n:text></a>';
+        $('login').innerHTML = 'you are logged in as<br/>' + data.first + ' ' + data.last + '<a href="" class="advancedSearchLink" id="loginButton" onclick="auth(\'out\'); return false;"><i18n:text>logout</i18n:text></a>';
         break;
     }
 }

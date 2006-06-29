@@ -1,50 +1,7 @@
 // Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
 // 
 // See scriptaculous.js for full license.
-
-function toString(obj, name, maxDepth, nl, indent, curDepth)
-{
-   var singleIndent = '&nbsp;&nbsp;&nbsp;&nbsp;';
-   if (curDepth == undefined)
-       curDepth = 0;
-   if (maxDepth != undefined && curDepth > maxDepth)
-       return '';
-   if (nl == undefined)
-       nl = '<br/>';
-   if (indent == undefined)
-       indent = singleIndent;
-   var str = curDepth == 0 ? nl+name+nl : '';
-   var i = 0;
-   var children;
-   for (prop in obj)
-   {
-       i++;
-       try {
-             if (typeof(obj[prop]) == "object")
-             {
-                 if (obj[prop] && obj[prop].length != undefined) {
-                     str += indent + name+"."+prop + "=[probably array, length " + obj[prop].length + "]"+nl;
-                 } else {
-                     str += indent + name+"."+prop + "=[" + typeof(obj[prop]) + "]"+nl;
-                 }
-                 children = toString(obj[prop], name+"."+prop, maxDepth, nl, indent+singleIndent, curDepth+1);
-                 if (children != '') {
-                     str += children;
-                 }
-             } else if (typeof(obj[prop]) == "function") {
-                 str += indent + name+"."+prop + "=[function]"+nl;
-             } else {
-                 str += indent + name+"."+prop + "=" + obj[prop] +nl;
-             }
-       } catch (e) {
-             str += indent + "!!! " + name+"."+prop + ":[exception caught: "+e+"]"+nl;
-       }
-   }
-   if (!i) {
-       str += indent + name + " is empty"+nl;
-   }
-   return str;
-}
 
 /*--------------------------------------------------------------------------*/
 
@@ -59,7 +16,8 @@ var Droppables = {
     element = $(element);
     var options = Object.extend({
       greedy:     true,
-      hoverclass: null  
+      hoverclass: null,
+      tree:       false
     }, arguments[1] || {});
 
     // cache containers
@@ -81,12 +39,27 @@ var Droppables = {
 
     this.drops.push(options);
   },
-
-  isContained: function(element, drop) {
-    var parentNode = element.parentNode;
-    return drop._containers.detect(function(c) { return parentNode == c });
+  
+  findDeepestChild: function(drops) {
+    deepest = drops[0];
+      
+    for (i = 1; i < drops.length; ++i)
+      if (Element.isParent(drops[i].element, deepest.element))
+        deepest = drops[i];
+    
+    return deepest;
   },
 
+  isContained: function(element, drop) {
+    var containmentNode;
+    if(drop.tree) {
+      containmentNode = element.treeNode; 
+    } else {
+      containmentNode = element.parentNode;
+    }
+    return drop._containers.detect(function(c) { return containmentNode == c });
+  },
+  
   isAffected: function(point, element, drop) {
     return (
       (drop.element!=element) &&
@@ -112,18 +85,22 @@ var Droppables = {
 
   show: function(point, element) {
     if(!this.drops.length) return;
+    var affected = [];
     
     if(this.last_active) this.deactivate(this.last_active);
     this.drops.each( function(drop) {
-      if(Droppables.isAffected(point, element, drop)) {
-        if(drop.onHover)
-           drop.onHover(element, drop.element, Position.overlap(drop.overlap, drop.element));
-        if(drop.greedy) { 
-          Droppables.activate(drop);
-          throw $break;
-        }
-      }
+      if(Droppables.isAffected(point, element, drop))
+        affected.push(drop);
     });
+        
+    if(affected.length>0) {
+      drop = Droppables.findDeepestChild(affected);
+      Position.within(drop.element, point[0], point[1]);
+      if(drop.onHover)
+        drop.onHover(element, drop.element, Position.overlap(drop.overlap, drop.element));
+      
+      Droppables.activate(drop);
+    }
   },
 
   fire: function(event, element) {
@@ -188,55 +165,96 @@ var Draggables = {
   
   endDrag: function(event) {
     if(!this.activeDraggable) return;
-
     // begin caillou edit
-
+    //  alert(Event.element(event).parentNode.id);
+      //if ((isSet(Event.element(event).parentNode.id) && Event.element(event).parentNode.id.indexOf('playlist_') != -1) || (isSet(oldplaylist) && oldplaylist == "addItemContainer")){
+      if (isSet(oldplaylist) && oldplaylist == "addItemContainer"){
+          var loop = true;
+          var element = Event.element(event);
+          while (loop){
+              if (element.nodeName == 'BODY' || element.nodeName == 'A' || isSet(element.id) && (element.id == "addItemContainer" || element.id.indexOf('playlist_') != -1)){
+                  loop = false;
+              }else{
+                  element = element.parentNode;
+              } 
+          }
+          ismousedown = false;
+          if (element.id == "addItemContainer" || element.nodeName == 'A'){
+            this._lastPointer = null;
+            this.activeDraggable.endDrag(event);
+            this.activeDraggable = null;
+            $('addItemContainer').innerHTML = "";
+            return;
+          }else if (element.nodeName == "LI") {
+          
+          
+    var newKeyList = new Array();
+    var newNameList = new Array();
+    $A(element.childNodes[4].childNodes).each(function(val, i){
+     if(val.id.split("_")[0] != "dummy" && val.id.split("_")[0] != "dropper"){
+            newKeyList.push(val.id);
+            newNameList.push(val.childNodes[2].innerHTML);
+         }
+    });
+    if (element.childNodes[4].childNodes.length == 3){
+        if (element.childNodes[4].childNodes[1].id.split("_")[0] != "dropper"){
+            var tmpNode = element.childNodes[4].childNodes[1];
+            var tmpParent = element.childNodes[4]; 
+            tmpParent.removeChild(tmpNode);
+            tmpParent.appendChild(tmpNode);
+        }
+        element.childNodes[4].childNodes[1].style.visibility = "hidden";
+        element.childNodes[4].childNodes[1].style.display = "none";
+    }
+    newplaylist = element.id.split("_")[1];
+    
+    playlist("update", newplaylist, newKeyList, newNameList); 
+          
+          
+          }
+      }
+      else if (isSet(Event.element(event).parentNode.id) && Event.element(event).parentNode.id.indexOf('playlistitem') != -1){
+    ismousedown = false;
     var newKeyList = new Array();
     var newNameList = new Array();
     var newposition;
     $A(Event.element(event).parentNode.parentNode.childNodes).each(function(val, i){
-            newKeyList.push(val.id.split("_")[1]);
+     if(val.id.split("_")[0] != "dummy" && val.id.split("_")[0] != "dropper"){
+            newKeyList.push(val.id);
             newNameList.push(val.childNodes[2].innerHTML);
             if (Event.element(event).parentNode.parentNode.childNodes[i] === Event.element(event).parentNode) { 
                 newposition = i;
             }
-        });
-      
+         }
+    });
+    //alert(Event.element(event).parentNode.parentNode.childNodes.length);
+    if (Event.element(event).parentNode.parentNode.childNodes.length == 3){
+        //alert("3 kinder... hihihi.");
+        if (Event.element(event).parentNode.parentNode.childNodes[1].id == Event.element(event).parentNode.id){
+            var tmpNode = Event.element(event).parentNode;
+            var tmpParent = Event.element(event).parentNode.parentNode;
+            Event.element(event).parentNode.parentNode.removeChild(Event.element(event).parentNode);
+            tmpParent.appendChild(tmpNode);
+        }
+        Event.element(event).parentNode.parentNode.childNodes[1].style.visibility = "hidden";
+        Event.element(event).parentNode.parentNode.childNodes[1].style.display = "none";
+    }
     newplaylist = Event.element(event).parentNode.parentNode.parentNode.id.split("_")[1];
     
     playlist("update", newplaylist, newKeyList, newNameList); 
-    if (newplaylist.nodeValue != oldplaylist)
+    if (newplaylist != oldplaylist)
     {
         playlist("update", oldplaylist, oldKeyList, oldNameList); 
+        if (oldParent.childNodes.length == 2) { // add "drop element here" item
+              oldParent.childNodes[1].style.visibility = "visible";
+              oldParent.childNodes[1].style.display = "block";
+        }
     }
-
-//    zweiter ansatz ... nicht so das    if (oldKeyList.length == 0) 
-//    {
-//        var dummyLI = Event.element(event).parentNode.parentNode.childNodes[0].cloneNode(true);
-//        dummyLI.id = 'dummy' + Math.random();
-//        dummyLI.childNodes[2].innerHTML = 'drag here';
-//        $('playlist_' + oldplaylist).childNodes[4].appendChild(dummyLI);
-//    }
-//    erster versuch eine leere playliste zu hndeln   if (oldKeyList.length == 0) {$('playlist_' + oldplaylist).childNodes[4].innerHTML = '<li class="playlistItem" id="draghere_'+ Math.random() +'"><div class="buttons"><img class="playbutton button" src="/fluxcms/themes/3-cols/images/play.png"></img><img class="removebutton button" src="/fluxcms/themes/3-cols/images/remove.png"></img></div><div class="connectors"><img align="right" class="icon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png"/></div><span class="handle">drag element here</span></li>';dragDropTree.init('playlistTree', true, true);}
-    
+    }
     // end caillou edit
-
     this._lastPointer = null;
     this.activeDraggable.endDrag(event);
     this.activeDraggable = null;
-    
-    // begin caillou edit
-    // we check if the li that was dragged into the newplaylist is already present in there
-    // and send it back to its source if it is.
-//    var undo = false;
-//    $A( Event.element(event).parentNode.parentNode.childNodes ).each( 
-//            function(li, number){
-//            if(number != li.childNodes[2].getAttribute('newposition') && li.id.split("_")[1] == Event.element(event).parentNode.id.split("_")[1]) undo = true;
-//        }
-//    );
-//    if (undo) Event.element(event).parentNode.parentNode.removeChild(Event.element(event).parentNode);
-    // end caillou edit
-    
   },
   
   keyPress: function(event) {
@@ -277,15 +295,17 @@ Draggable.prototype = {
   initialize: function(element) {
     var options = Object.extend({
       handle: false,
-      starteffect: function(element) { 
-        new Effect.Opacity(element, {duration:0.2, from:1.0, to:0.7}); 
+      starteffect: function(element) {
+        element._opacity = Element.getOpacity(element); 
+        new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.7}); 
       },
       reverteffect: function(element, top_offset, left_offset) {
         var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
         element._revert = new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur});
       },
-      endeffect: function(element) { 
-        new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0}); 
+      endeffect: function(element) {
+        var toOpacity = typeof element._opacity == 'number' ? element._opacity : 1.0
+        new Effect.Opacity(element, {duration:0.2, from:0.7, to:toOpacity}); 
       },
       zindex: 1000,
       revert: false,
@@ -297,12 +317,15 @@ Draggable.prototype = {
 
     this.element = $(element);
     
-    if(options.handle && (typeof options.handle == 'string'))
-      this.handle = Element.childrenWithClassName(this.element, options.handle)[0];  
+    if(options.handle && (typeof options.handle == 'string')) {
+      var h = Element.childrenWithClassName(this.element, options.handle, true);
+      if(h.length>0) this.handle = h[0];
+    }
     if(!this.handle) this.handle = $(options.handle);
     if(!this.handle) this.handle = this.element;
     
-    if(options.scroll) options.scroll = $(options.scroll);
+    if(options.scroll && !options.scroll.scrollTo && !options.scroll.outerHTML)
+      options.scroll = $(options.scroll);
 
     Element.makePositioned(this.element); // fix IE    
 
@@ -328,26 +351,43 @@ Draggable.prototype = {
   },
   
   initDrag: function(event) {
-
     if(Event.isLeftClick(event)) {    
-      // begin caillou edit
-      var position;
-      oldKeyList = new Array();
-      oldNameList = new Array();
-      $A(Event.element(event).parentNode.parentNode.childNodes).each(function(val, i){
-              if (Event.element(event).parentNode.parentNode.childNodes[i] === Event.element(event).parentNode) { 
-                  position = i;
-              }else{
-                  oldKeyList.push(val.id.split("_")[1]);
-                  oldNameList.push(val.childNodes[2].innerHTML);
-              }
-          });
-      
-      oldposition = position;
-      
-      oldplaylist = Event.element(event).parentNode.parentNode.parentNode.id.split("_")[1];
-      // end caillou edit
+// begin caillou edit
+        //alert('forwarded');
+      if (isSet(Event.element(event).parentNode.id) && Event.element(event).parentNode.id.indexOf('dropper') != -1){
+          return false;
+      }
+      if (isSet(Event.element(event).parentNode.id) && Event.element(event).parentNode.id.indexOf('playlistitem') != -1){
+    ismousedown = true;
+    if (Event.element(event).parentNode.parentNode.id == "addItemContainer"){
+        Event.element(event).parentNode.childNodes[2].style.marginLeft = "20px";
+        oldplaylist = 'addItemContainer';
+    }else{
+        Event.element(event).parentNode.parentNode.parentNode.childNodes[0].style.visibility = "hidden";
+        var position;
+        oldKeyList = new Array();
+        oldNameList = new Array();
 
+        oldParent = Event.element(event).parentNode.parentNode;
+
+        
+        $A(Event.element(event).parentNode.parentNode.childNodes).each(function(val, i){
+        if(val.id.split("_")[0] != "dummy" && val.id.split("_")[0] != "dropper"){
+                    if (Event.element(event).parentNode.parentNode.childNodes[i] === Event.element(event).parentNode){
+                        position = i;
+                    }else{
+                        oldKeyList.push(val.id);
+                        oldNameList.push(val.childNodes[2].innerHTML);
+                    }
+                }
+            });
+        
+        oldposition = position;
+        
+        oldplaylist = Event.element(event).parentNode.parentNode.parentNode.id.split("_")[1];
+      }
+      }
+// end caillou edit
       // abort on form elements, fixes a Firefox issue
       var src = Event.element(event);
       if(src.tagName && (
@@ -362,9 +402,19 @@ Draggable.prototype = {
         this.element._revert = null;
       }
       
-      var pointer = [Event.pointerX(event), Event.pointerY(event)];
-      var pos     = Position.cumulativeOffset(this.element);
-      this.offset = [0,1].map( function(i) { return (pointer[i] - pos[i]) });
+// begin caillou edit
+      if (isSet(Event.element(event).parentNode.parentNode.id) && Event.element(event).parentNode.parentNode.id == "addItemContainer"){
+          var pointer = pointerPosition;
+          var pos = clickPosition;
+          this.offset = [0,1].map( function(i) { return (pointer[i] - pos[i]) });
+          this.offset[0] = 80;
+          this.offset[1] = 10;
+      }else{
+          var pointer = [Event.pointerX(event), Event.pointerY(event)];
+          var pos = Position.cumulativeOffset(this.element);
+          this.offset = [0,1].map( function(i) { return (pointer[i] - pos[i]) });
+      }
+// end caillou edit
       
       Draggables.activate(this);
       Event.stop(event);
@@ -386,8 +436,14 @@ Draggable.prototype = {
     }
     
     if(this.options.scroll) {
-      this.originalScrollLeft = this.options.scroll.scrollLeft;
-      this.originalScrollTop = this.options.scroll.scrollTop;
+      if (this.options.scroll == window) {
+        var where = this._getWindowScroll(this.options.scroll);
+        this.originalScrollLeft = where.left;
+        this.originalScrollTop = where.top;
+      } else {
+        this.originalScrollLeft = this.options.scroll.scrollLeft;
+        this.originalScrollTop = this.options.scroll.scrollTop;
+      }
     }
     
     Draggables.notify('onStart', this, event);
@@ -403,13 +459,18 @@ Draggable.prototype = {
     if(this.options.change) this.options.change(this);
     
     if(this.options.scroll) {
-      //if(this.scrollInterval) this.scroll();
       this.stopScrolling();
-      var p = Position.page(this.options.scroll);
-      p[0] += this.options.scroll.scrollLeft;
-      p[1] += this.options.scroll.scrollTop;
-      p.push(p[0]+this.options.scroll.offsetWidth);
-      p.push(p[1]+this.options.scroll.offsetHeight);
+      
+      var p;
+      if (this.options.scroll == window) {
+        with(this._getWindowScroll(this.options.scroll)) { p = [ left, top, left+width, top+height ]; }
+      } else {
+        p = Position.page(this.options.scroll);
+        p[0] += this.options.scroll.scrollLeft;
+        p[1] += this.options.scroll.scrollTop;
+        p.push(p[0]+this.options.scroll.offsetWidth);
+        p.push(p[1]+this.options.scroll.offsetHeight);
+      }
       var speed = [0,0];
       if(pointer[0] < (p[0]+this.options.scrollSensitivity)) speed[0] = pointer[0]-(p[0]+this.options.scrollSensitivity);
       if(pointer[1] < (p[1]+this.options.scrollSensitivity)) speed[1] = pointer[1]-(p[1]+this.options.scrollSensitivity);
@@ -475,7 +536,7 @@ Draggable.prototype = {
     var d = this.currentDelta();
     pos[0] -= d[0]; pos[1] -= d[1];
     
-    if(this.options.scroll) {
+    if(this.options.scroll && (this.options.scroll != window)) {
       pos[0] -= this.options.scroll.scrollLeft-this.originalScrollLeft;
       pos[1] -= this.options.scroll.scrollTop-this.originalScrollTop;
     }
@@ -486,7 +547,7 @@ Draggable.prototype = {
     
     if(this.options.snap) {
       if(typeof this.options.snap == 'function') {
-        p = this.options.snap(p[0],p[1]);
+        p = this.options.snap(p[0],p[1],this);
       } else {
       if(this.options.snap instanceof Array) {
         p = p.map( function(v, i) {
@@ -509,6 +570,7 @@ Draggable.prototype = {
     if(this.scrollInterval) {
       clearInterval(this.scrollInterval);
       this.scrollInterval = null;
+      Draggables._lastScrollPointer = null;
     }
   },
   
@@ -522,15 +584,55 @@ Draggable.prototype = {
     var current = new Date();
     var delta = current - this.lastScrolled;
     this.lastScrolled = current;
-    this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
-    this.options.scroll.scrollTop  += this.scrollSpeed[1] * delta / 1000;
+    if(this.options.scroll == window) {
+      with (this._getWindowScroll(this.options.scroll)) {
+        if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
+          var d = delta / 1000;
+          this.options.scroll.scrollTo( left + d*this.scrollSpeed[0], top + d*this.scrollSpeed[1] );
+        }
+      }
+    } else {
+      this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
+      this.options.scroll.scrollTop  += this.scrollSpeed[1] * delta / 1000;
+    }
     
     Position.prepare();
     Droppables.show(Draggables._lastPointer, this.element);
     Draggables.notify('onDrag', this);
-    this.draw(Draggables._lastPointer);    
+    Draggables._lastScrollPointer = Draggables._lastScrollPointer || $A(Draggables._lastPointer);
+    Draggables._lastScrollPointer[0] += this.scrollSpeed[0] * delta / 1000;
+    Draggables._lastScrollPointer[1] += this.scrollSpeed[1] * delta / 1000;
+    if (Draggables._lastScrollPointer[0] < 0)
+      Draggables._lastScrollPointer[0] = 0;
+    if (Draggables._lastScrollPointer[1] < 0)
+      Draggables._lastScrollPointer[1] = 0;
+    this.draw(Draggables._lastScrollPointer);
     
     if(this.options.change) this.options.change(this);
+  },
+  
+  _getWindowScroll: function(w) {
+    var T, L, W, H;
+    with (w.document) {
+      if (w.document.documentElement && documentElement.scrollTop) {
+        T = documentElement.scrollTop;
+        L = documentElement.scrollLeft;
+      } else if (w.document.body) {
+        T = body.scrollTop;
+        L = body.scrollLeft;
+      }
+      if (w.innerWidth) {
+        W = w.innerWidth;
+        H = w.innerHeight;
+      } else if (w.document.documentElement && documentElement.clientWidth) {
+        W = documentElement.clientWidth;
+        H = documentElement.clientHeight;
+      } else {
+        W = body.offsetWidth;
+        H = body.offsetHeight
+      }
+    }
+    return { top: T, left: L, width: W, height: H };
   }
 }
 
@@ -556,41 +658,53 @@ SortableObserver.prototype = {
 }
 
 var Sortable = {
-  sortables: new Array(),
+  sortables: {},
   
-  options: function(element){
-    element = $(element);
-    return this.sortables.detect(function(s) { return s.element == element });
+  _findRootElement: function(element) {
+    while (element.tagName != "BODY") {  
+      if(element.id && Sortable.sortables[element.id]) return element;
+      element = element.parentNode;
+    }
+  },
+
+  options: function(element) {
+    element = Sortable._findRootElement($(element));
+    if(!element) return;
+    return Sortable.sortables[element.id];
   },
   
   destroy: function(element){
-    element = $(element);
-    this.sortables.findAll(function(s) { return s.element == element }).each(function(s){
+    var s = Sortable.options(element);
+    
+    if(s) {
       Draggables.removeObserver(s.element);
       s.droppables.each(function(d){ Droppables.remove(d) });
       s.draggables.invoke('destroy');
-    });
-    this.sortables = this.sortables.reject(function(s) { return s.element == element });
+      
+      delete Sortable.sortables[s.element.id];
+    }
   },
-  
+
   create: function(element) {
     element = $(element);
     var options = Object.extend({ 
       element:     element,
       tag:         'li',       // assumes li children, override with tag: 'tagname'
       dropOnEmpty: false,
-      tree:        false,      // fixme: unimplemented
+      tree:        false,
+      treeTag:     'ul',
       overlap:     'vertical', // one of 'vertical', 'horizontal'
       constraint:  'vertical', // one of 'vertical', 'horizontal', false
-      containment: element,    // also takes array of elements (or id's); or false
+      containment: element,    // also takes array of elements (or id`s); or false
       handle:      false,      // or a CSS class
       only:        false,
       hoverclass:  null,
       ghosting:    false,
       scroll:      false,
+      scrollSensitivity: 20,
+      scrollSpeed: 15,
       format:      /^[^_]*_(.*)$/,
       onChange:    Prototype.emptyFunction,
-	  onEnd:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
     }, arguments[1] || {});
 
@@ -601,6 +715,8 @@ var Sortable = {
     var options_for_draggable = {
       revert:      true,
       scroll:      options.scroll,
+      scrollSpeed: options.scrollSpeed,
+      scrollSensitivity: options.scrollSensitivity,
       ghosting:    options.ghosting,
       constraint:  options.constraint,
       handle:      options.handle };
@@ -626,9 +742,17 @@ var Sortable = {
     var options_for_droppable = {
       overlap:     options.overlap,
       containment: options.containment,
+      tree:        options.tree,
       hoverclass:  options.hoverclass,
-      onHover:     Sortable.onHover,
-      greedy:      !options.dropOnEmpty
+      onHover:     Sortable.onHover
+      //greedy:      !options.dropOnEmpty
+    }
+    
+    var options_for_tree = {
+      onHover:      Sortable.onEmptyHover,
+      overlap:      options.overlap,
+      containment:  options.containment,
+      hoverclass:   options.hoverclass
     }
 
     // fix for gecko engine
@@ -637,12 +761,9 @@ var Sortable = {
     options.draggables = [];
     options.droppables = [];
 
-    // make it so
-
     // drop on empty handling
-    if(options.dropOnEmpty) {
-      Droppables.add(element,
-        {containment: options.containment, onHover: Sortable.onEmptyHover, greedy: false});
+    if(options.dropOnEmpty || options.tree) {
+      Droppables.add(element, options_for_tree);
       options.droppables.push(element);
     }
 
@@ -653,11 +774,20 @@ var Sortable = {
       options.draggables.push(
         new Draggable(e, Object.extend(options_for_draggable, { handle: handle })));
       Droppables.add(e, options_for_droppable);
+      if(options.tree) e.treeNode = element;
       options.droppables.push(e);      
     });
+    
+    if(options.tree) {
+      (Sortable.findTreeElements(element, options) || []).each( function(e) {
+        Droppables.add(e, options_for_tree);
+        e.treeNode = element;
+        options.droppables.push(e);
+      });
+    }
 
     // keep reference
-    this.sortables.push(options);
+    this.sortables[element.id] = options;
 
     // for onupdate
     Draggables.addObserver(new SortableObserver(element, options.onUpdate));
@@ -666,23 +796,21 @@ var Sortable = {
 
   // return all suitable-for-sortable elements in a guaranteed order
   findElements: function(element, options) {
-    if(!element.hasChildNodes()) return null;
-    var elements = [];
-    $A(element.childNodes).each( function(e) {
-      if(e.tagName && e.tagName.toUpperCase()==options.tag.toUpperCase() &&
-        (!options.only || (Element.hasClassName(e, options.only))))
-          elements.push(e);
-      if(options.tree) {
-        var grandchildren = this.findElements(e, options);
-        if(grandchildren) elements.push(grandchildren);
-      }
-    });
-
-    return (elements.length>0 ? elements.flatten() : null);
+    return Element.findChildren(
+      element, options.only, options.tree ? true : false, options.tag);
+  },
+  
+  findTreeElements: function(element, options) {
+    return Element.findChildren(
+      element, options.only, options.tree ? true : false, options.treeTag);
   },
 
   onHover: function(element, dropon, overlap) {
-    if(overlap>0.5) {
+    if(Element.isParent(dropon, element)) return;
+
+    if(overlap > .33 && overlap < .66 && Sortable.options(dropon).tree) {
+      return;
+    } else if(overlap>0.5) {
       Sortable.mark(dropon, 'before');
       if(dropon.previousSibling != element) {
         var oldParentNode = element.parentNode;
@@ -701,17 +829,41 @@ var Sortable = {
         dropon.parentNode.insertBefore(element, nextElement);
         if(dropon.parentNode!=oldParentNode) 
           Sortable.options(oldParentNode).onChange(element);
-          Sortable.options(dropon.parentNode).onChange(element);
+        Sortable.options(dropon.parentNode).onChange(element);
       }
     }
   },
-
-  onEmptyHover: function(element, dropon) {
-    if(element.parentNode!=dropon) {
-      var oldParentNode = element.parentNode;
-      dropon.appendChild(element);
+  
+  onEmptyHover: function(element, dropon, overlap) {
+    var oldParentNode = element.parentNode;
+    var droponOptions = Sortable.options(dropon);
+        
+    if(!Element.isParent(dropon, element)) {
+      var index;
+      
+      var children = Sortable.findElements(dropon, {tag: droponOptions.tag});
+      var child = null;
+            
+      if(children) {
+        var offset = Element.offsetSize(dropon, droponOptions.overlap) * (1.0 - overlap);
+        
+        for (index = 0; index < children.length; index += 1) {
+          if (offset - Element.offsetSize (children[index], droponOptions.overlap) >= 0) {
+            offset -= Element.offsetSize (children[index], droponOptions.overlap);
+          } else if (offset - (Element.offsetSize (children[index], droponOptions.overlap) / 2) >= 0) {
+            child = index + 1 < children.length ? children[index + 1] : null;
+            break;
+          } else {
+            child = children[index];
+            break;
+          }
+        }
+      }
+      
+      dropon.insertBefore(element, child);
+      
       Sortable.options(oldParentNode).onChange(element);
-      Sortable.options(dropon).onChange(element);
+      droponOptions.onChange(element);
     }
   },
 
@@ -743,6 +895,75 @@ var Sortable = {
     
     Element.show(Sortable._marker);
   },
+  
+  _tree: function(element, options, parent) {
+    var children = Sortable.findElements(element, options) || [];
+  
+    for (var i = 0; i < children.length; ++i) {
+      var match = children[i].id.match(options.format);
+
+      if (!match) continue;
+      
+      var child = {
+        id: encodeURIComponent(match ? match[1] : null),
+        element: element,
+        parent: parent,
+        children: new Array,
+        position: parent.children.length,
+        container: Sortable._findChildrenElement(children[i], options.treeTag.toUpperCase())
+      }
+      
+      /* Get the element containing the children and recurse over it */
+      if (child.container)
+        this._tree(child.container, options, child)
+      
+      parent.children.push (child);
+    }
+
+    return parent; 
+  },
+
+  /* Finds the first element of the given tag type within a parent element.
+    Used for finding the first LI[ST] within a L[IST]I[TEM].*/
+  _findChildrenElement: function (element, containerTag) {
+    if (element && element.hasChildNodes)
+      for (var i = 0; i < element.childNodes.length; ++i)
+        if (element.childNodes[i].tagName == containerTag)
+          return element.childNodes[i];
+  
+    return null;
+  },
+
+  tree: function(element) {
+    element = $(element);
+    var sortableOptions = this.options(element);
+    var options = Object.extend({
+      tag: sortableOptions.tag,
+      treeTag: sortableOptions.treeTag,
+      only: sortableOptions.only,
+      name: element.id,
+      format: sortableOptions.format
+    }, arguments[1] || {});
+    
+    var root = {
+      id: null,
+      parent: null,
+      children: new Array,
+      container: element,
+      position: 0
+    }
+    
+    return Sortable._tree (element, options, root);
+  },
+
+  /* Construct a [i] index for a particular node */
+  _constructIndex: function(node) {
+    var index = '';
+    do {
+      if (node.id) index = '[' + node.position + ']' + index;
+    } while ((node = node.parent) != null);
+    return index;
+  },
 
   sequence: function(element) {
     element = $(element);
@@ -765,20 +986,68 @@ var Sortable = {
     });
    
     new_sequence.each(function(ident) {
-        var n = nodeMap[ident];
-        if (n) {
-            n[1].appendChild(n[0]);
-            delete nodeMap[ident];
-        }
+      var n = nodeMap[ident];
+      if (n) {
+        n[1].appendChild(n[0]);
+        delete nodeMap[ident];
+      }
     });
   },
-
+  
   serialize: function(element) {
     element = $(element);
+    var options = Object.extend(Sortable.options(element), arguments[1] || {});
     var name = encodeURIComponent(
       (arguments[1] && arguments[1].name) ? arguments[1].name : element.id);
-    return Sortable.sequence(element, arguments[1]).map( function(item) {
-      return name + "[]=" + encodeURIComponent(item);
-    }).join('&');
+    
+    if (options.tree) {
+      return Sortable.tree(element, arguments[1]).children.map( function (item) {
+        return [name + Sortable._constructIndex(item) + "=" + 
+                encodeURIComponent(item.id)].concat(item.children.map(arguments.callee));
+      }).flatten().join('&');
+    } else {
+      return Sortable.sequence(element, arguments[1]).map( function(item) {
+        return name + "[]=" + encodeURIComponent(item);
+      }).join('&');
+    }
   }
+}
+
+/* Returns true if child is contained within element */
+Element.isParent = function(child, element) {
+  if (!child.parentNode || child == element) return false;
+
+  if (child.parentNode == element) return true;
+
+  return Element.isParent(child.parentNode, element);
+}
+
+Element.findChildren = function(element, only, recursive, tagName) {    
+  if(!element.hasChildNodes()) return null;
+  tagName = tagName.toUpperCase();
+  if(only) only = [only].flatten();
+  var elements = [];
+  $A(element.childNodes).each( function(e) {
+    if(e.tagName && e.tagName.toUpperCase()==tagName &&
+      (!only || (Element.classNames(e).detect(function(v) { return only.include(v) }))))
+        elements.push(e);
+    if(recursive) {
+      var grandchildren = Element.findChildren(e, only, recursive, tagName);
+      if(grandchildren) elements.push(grandchildren);
+    }
+  });
+
+  return (elements.length>0 ? elements.flatten() : []);
+}
+
+Element.offsetSize = function (element, type) {
+  if (type == 'vertical' || type == 'height')
+    return element.offsetHeight;
+  else
+    return element.offsetWidth;
+}
+function isSet(prm) 
+{
+        var empty;
+            return (prm != empty && prm != null);
 }

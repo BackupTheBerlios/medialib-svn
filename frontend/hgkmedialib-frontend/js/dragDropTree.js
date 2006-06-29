@@ -143,8 +143,8 @@ var dragDropTree = {
 				
 				li.mode = mode;
 				li.pos = pos;
-				
-				
+                
+                // if (li.connectors == null) alert(li.id);
 				li.connectors.style.width = (li.index*20) - 1 + "px";
 				
 				var src = li.icon.src.split("/");

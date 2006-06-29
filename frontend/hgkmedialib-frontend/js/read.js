@@ -2,16 +2,34 @@
 var readerCallback = {
 	
 	getByDate: function(result){
+        document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';
+        document.getElementById('newsView').style.display = "block";
+        document.getElementById('advancedSearchView').style.display = "none";
+        document.getElementById('informationView').style.display = "none";
+        document.getElementById('informationImages').style.display = "none";
+        document.getElementById('playlistView').style.display = "none";
 		document.getElementById("newsList").innerHTML = renderSearch('news', result);
         Behavior.apply();
         $('newsSearch').style.height = (50 + document.getElementById('newsList').offsetHeight) + 'px';
 	},
 	getByCollection: function(result){
+        document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';
+        document.getElementById('newsView').style.display = "block";
+        document.getElementById('advancedSearchView').style.display = "none";
+        document.getElementById('informationView').style.display = "none";
+        document.getElementById('informationImages').style.display = "none";
+        document.getElementById('playlistView').style.display = "none";
 		document.getElementById("collectionsList").innerHTML = renderSearch('collections', result);
         Behavior.apply();
         $('collectionsSearch').style.height = (50 + document.getElementById('collectionsList').offsetHeight) + 'px';
 	},
 	getByTitle: function(result){
+        document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';
+        document.getElementById('newsView').style.display = "block";
+        document.getElementById('advancedSearchView').style.display = "none";
+        document.getElementById('informationView').style.display = "none";
+        document.getElementById('informationImages').style.display = "none";
+        document.getElementById('playlistView').style.display = "none";
 		document.getElementById('titleList').innerHTML = renderSearch('title', result);
         Behavior.apply();
         $('titleSearch').style.height = (50 + document.getElementById('titleList').offsetHeight) + 'px';
@@ -42,6 +60,12 @@ var readerCallback = {
     getThumbs: 
     function(result)
     {
+        document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';
+        document.getElementById('newsView').style.display = "block";
+        document.getElementById('advancedSearchView').style.display = "none";
+        document.getElementById('informationView').style.display = "none";
+        document.getElementById('informationImages').style.display = "none";
+        document.getElementById('playlistView').style.display = "none";
         document.getElementById('newsImages').innerHTML = renderSearch('thumbs', result);
     },
     getFiles:

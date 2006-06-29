@@ -24,7 +24,7 @@
  * @version $Id$
  */
 interface HGKMediaLib_ReadingInterface{
-    
+        
     /**
      * Find using an extended query.
      *
@@ -46,7 +46,7 @@ interface HGKMediaLib_ReadingInterface{
      *   )
      *   
      * 
-     * @param int $sessionId
+     * @param string $sessionId
      * @param array $clauses 
      * @param array $sortOrder
      * @param int $limit
@@ -59,7 +59,7 @@ interface HGKMediaLib_ReadingInterface{
     /**
      * The getInformation() method returns a HGKMediaLib_Struct_Information object
      * 
-     * @param int $sessionId 
+     * @param string $sessionId 
      * @param mixed $id database entity id of a Set, Instance or Work
      * @param string $lang 
      * @access public
