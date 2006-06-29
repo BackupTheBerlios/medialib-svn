@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
-xmlns:tns="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php"
+xmlns:tns="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php"
 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
 name="HGKMediaLib_ReadingInterface"
-targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php">
+targetNamespace="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php">
 
   <documentation>Interface for reading SOAP access to the backend
   Copyright 2005-2006 Pierre Spring, mediagonal Ag
@@ -48,7 +48,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php#find" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php#find" />
     </operation>
     <operation name="getInformation">
       <input>
@@ -59,17 +59,17 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php#getInformation" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php#getInformation" />
     </operation>
   </binding>
   <service name="HGKMediaLib_ReadingInterfaceService">
     <port name="tns:HGKMediaLib_ReadingInterfacePort"
     binding="tns:HGKMediaLib_ReadingInterfaceBinding">
-      <soap:address location="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php" />
+      <soap:address location="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php" />
     </port>
   </service>
   <message name="findRequest">
-    <part name="sessionId" type="xsd:int" />
+    <part name="sessionId" type="xsd:string" />
     <part name="clauses" type="soap-enc:Array" />
     <part name="sortOrder" type="soap-enc:Array" />
     <part name="limit" type="xsd:int" />
@@ -90,7 +90,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
   <documentation>of HGKMediaLib_Struct_Entity
   objects</documentation>
   <message name="getInformationRequest">
-    <part name="sessionId" type="xsd:int" />
+    <part name="sessionId" type="xsd:string" />
     <part name="id" type="xsd:anyType" />
     <part name="lang" type="xsd:string" />
   </message>

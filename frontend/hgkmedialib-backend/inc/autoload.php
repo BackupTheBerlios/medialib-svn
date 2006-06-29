@@ -79,6 +79,7 @@ function setErrorLevel(){
 	}
 }
 
+
 function setCacheSettings(){
 	if (!define('DO_CACHING')) {
 		return ;

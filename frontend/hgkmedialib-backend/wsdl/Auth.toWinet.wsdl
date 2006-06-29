@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
-xmlns:tns="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php"
+xmlns:tns="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php"
 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
 name="HGKMediaLib_AuthInterface"
-targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php">
+targetNamespace="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php">
 
   <documentation>Central authentication interface for SOAP access
   to the backend Copyright 2005-2006 Pierre Spring, mediagonal Ag
@@ -57,7 +57,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php#dropSession" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php#dropSession" />
     </operation>
     <operation name="getAnonymousSession">
       <input>
@@ -68,7 +68,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php#getAnonymousSession" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php#getAnonymousSession" />
     </operation>
     <operation name="getDomains">
       <input>
@@ -79,7 +79,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php#getDomains" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php#getDomains" />
     </operation>
     <operation name="getSession">
       <input>
@@ -90,7 +90,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php#getSession" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php#getSession" />
     </operation>
     <operation name="getUserData">
       <input>
@@ -101,13 +101,13 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
         <soap:body use="encoded"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </output>
-      <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php#getUserData" />
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php#getUserData" />
     </operation>
   </binding>
   <service name="HGKMediaLib_AuthInterfaceService">
     <port name="tns:HGKMediaLib_AuthInterfacePort"
     binding="tns:HGKMediaLib_AuthInterfaceBinding">
-      <soap:address location="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Auth.php" />
+      <soap:address location="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Authentication.php" />
     </port>
   </service>
   <message name="dropSessionRequest">
@@ -116,7 +116,7 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
   <documentation>The dropSession() methode unvalidates the given
   $session ID</documentation>
   <message name="dropSessionResponse">
-    <part name="dropSessionReturn" type="xsd:boolean" />
+    <part name="dropSessionReturn" type="xsd:anyType" />
   </message>
   <message name="getAnonymousSessionRequest" />
   <documentation>Get session for an unknown, anonymous

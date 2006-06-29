@@ -29,7 +29,7 @@ try {
     echo "we call dropSession('session') - Returns a new anonymous session id:\n";
     echo "******************************\n\n";
    
-    $result = $client->dropSession('session');
+    $result = $client->dropSession($result);
     var_export($result);
     
     echo "\n\n";
