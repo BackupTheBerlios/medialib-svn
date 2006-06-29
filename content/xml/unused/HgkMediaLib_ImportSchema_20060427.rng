@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <element name="feed">
+            <oneOrMore>
+                <element name="work">
+                    <ref name="acl_element" />
+                    <ref name="name_element" />
+                    <zeroOrMore>
+                        <ref name="entry_element"/>
+                    </zeroOrMore>
+                    <zeroOrMore>
+                        <ref name="person_group_element"/>
+                    </zeroOrMore>
+                    <oneOrMore>
+                        <element name="instance">
+                            <ref name="acl_element" />
+                            <ref name="name_element" />
+                            <zeroOrMore>
+                                <ref name="entry_element"/>
+                            </zeroOrMore>
+                            <zeroOrMore>
+                                <ref name="person_group_element"/>
+                            </zeroOrMore>
+                            <oneOrMore>
+                                <ref name="set_element"/>
+                            </oneOrMore>
+                        </element>
+                    </oneOrMore>
+                </element>
+            </oneOrMore>
+        </element>
+    </start>
+
+    <define name="acl_element">
+        <element name="acl">
+            <attribute name="type">
+                <value>d</value>
+            </attribute>
+            <attribute name="name">
+                <value>default</value>
+            </attribute>
+            <choice>
+                <group>
+                    <optional>
+                        <attribute name="read">
+                            <value>true</value>
+                        </attribute>
+                    </optional>
+                    <optional>
+                        <attribute name="write">
+                            <value>true</value>
+                        </attribute>
+                    </optional>
+                    <optional>
+                        <attribute name="execute">
+                            <value>true</value>
+                        </attribute>
+                    </optional>
+                    <optional>
+                        <attribute name="grand">
+                            <value>true</value>
+                        </attribute>
+                    </optional>
+                </group>
+                <attribute name="kill">
+                    <value>true</value>
+                </attribute>
+            </choice>
+        </element>
+    </define>
+
+    <define name="audio_stream_entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>audio_stream</value>
+            </attribute>
+            <optional>
+                <ref name="codec_attribute"/>
+            </optional>
+            <optional>
+                <attribute name="sampler_rate">
+                    <data type="integer"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="channels">
+                    <data type="integer"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="bit_format">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+        </element>
+    </define>
+
+
+    <define name="video_stream_entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>video_stream</value>
+            </attribute>
+            <optional>
+                <ref name="codec_attribute"/>
+            </optional>
+            <optional>
+                <ref name="format_attribute"/>
+            </optional>
+            <optional>
+                <attribute name="dimension">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="frame_rate">
+                    <data type="decimal"/>
+                </attribute>
+            </optional>
+        </element>
+    </define>
+
+    <define name="image_data_entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>image_data</value>
+            </attribute>
+            <optional>
+                <ref name="seq_attribute"/>
+            </optional>
+            <optional>
+                <attribute name="time">
+                    <data type="time"/>
+                </attribute>
+            </optional>
+            <optional>
+                <ref name="file_size_attribute"/>
+            </optional>
+            <optional>
+                <ref name="format_attribute"/>
+            </optional>
+            <optional>
+                <attribute name="width">
+                    <data type="decimal"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="height">
+                    <data type="decimal"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="color_space">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="depth">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="res_width">
+                    <data type="decimal"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="res_height">
+                    <data type="decimal"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="exif">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="description">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+        </element>
+    </define>
+
+    <define name="text_data_entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>text_data</value>
+            </attribute>
+            <optional>
+                <ref name="seq_attribute"/>
+            </optional>
+            <optional>
+                <ref name="file_size_attribute"/>
+            </optional>
+            <optional>
+                <ref name="format_attribute"/>
+            </optional>
+            <optional>
+                <attribute name="pages">
+                    <data type="integer"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="paper_format">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+        </element>
+    </define>
+    
+    <define name="sequence_element">
+        <element name="sequence">
+            <ref name="seq_attribute" />
+            <ref name="acl_element" />
+            <choice>
+                <group>
+                    <ref name="audio_stream_entry_element" />
+                    <ref name="video_stream_entry_element" />
+                </group>
+                <ref name="image_data_entry_element" />
+                <ref name="text_data_entry_element" />
+            </choice>
+        </element>
+    </define>
+    
+    <define name="collection_element">
+        <element name = "collection">
+            <ref name="acl_element" />
+            <ref name="name_element" />
+            <zeroOrMore>
+                <ref name="entry_element"/>
+            </zeroOrMore>
+        </element>
+    </define>
+    
+    <define name="media_element">
+        <element name="media">
+            <choice>
+                <ref name="id_attribute"/>
+                <group>
+                    <ref name="id_attribute"/>
+                    <attribute name="master_media_id">
+                        <data type="integer"/>
+                    </attribute>
+                </group>
+            </choice>
+            <attribute name="urn">
+                <data type="token"/>
+            </attribute>
+            <optional>
+                <attribute name="mime_type">
+                    <data type="token"/>
+                </attribute>
+            </optional>
+            <ref name="acl_element" />
+            <zeroOrMore>
+                <ref name="entry_element"/>
+            </zeroOrMore>
+<!-- Achtung: wieder aendern!!!            <oneOrMore> -->
+            <optional>
+                <ref name="sequence_element"/>
+            </optional>
+<!--             </oneOrMore> -->
+            <optional>
+                <ref name="collection_element"/>
+            </optional>
+        </element>
+    </define>
+    
+    <define name="set_element">
+        <element name="set">
+            <choice>
+                <ref name="id_attribute"/>
+                <group>
+                    <ref name="id_attribute"/>
+                    <attribute name="master_set_id">
+                        <data type="integer"/>
+                    </attribute>
+                </group>
+            </choice>
+            <ref name="seq_attribute"/>
+            <ref name="acl_element" />
+            <ref name="name_element" />
+            <zeroOrMore>
+                <ref name="entry_element"/>
+            </zeroOrMore>
+            <zeroOrMore>
+                <ref name="person_group_element"/>
+            </zeroOrMore>
+            <zeroOrMore>
+                <ref name="media_element"/>
+            </zeroOrMore>
+        </element>
+    </define>
+    
+    <define name="person_group_element">
+        <element name="person_group">
+            <zeroOrMore>
+                <element name="group">
+                    <ref name="acl_element" />
+                    <element name="entry">
+                        <attribute name="type">
+                            <value>group_data</value>
+                        </attribute>
+                        <attribute name="label">
+                            <value>name</value>
+                        </attribute>
+                        <optional>
+                            <ref name="lang_attribute"/>
+                        </optional>
+                        <attribute name="data_type">
+                            <value>VARCHAR</value>
+                        </attribute>
+                        <attribute name="value">
+                            <data type="token" />
+                        </attribute>
+                    </element>
+                    <optional>
+                        <element name="entry">
+                            <attribute name="type">
+                                <value>group_data</value>
+                            </attribute>
+                            <attribute name="label">
+                                <value>first name</value>
+                            </attribute>
+                            <optional>
+                                <ref name="lang_attribute"/>
+                            </optional>
+                            <attribute name="data_type">
+                                <value>VARCHAR</value>
+                            </attribute>
+                            <attribute name="value">
+                                <data type="token" />
+                            </attribute>
+                        </element>
+                    </optional>
+                    <zeroOrMore>
+                        <element name="entry">
+                            <attribute name="type">
+                                <value>group_data</value>
+                            </attribute>
+                            <ref name="label_attribute"/>
+                            <optional>
+                                <ref name="lang_attribute"/>
+                            </optional>
+                            <choice>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>INTEGER</value>
+                                    </attribute>
+                                    <attribute name="value" >
+                                        <data type="integer" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>NUMERIC</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="decimal" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>VARCHAR</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>TIME</value>
+                                    </attribute>
+                                    <attribute name="value">
+<!--                                         <data type="time" /> -->
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>DATE</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                            </choice>
+                        </element>
+                    </zeroOrMore>
+                    <oneOrMore>
+                        <element name="entry">
+                            <attribute name="type">
+                                <value>function_data</value>
+                            </attribute>
+                            <ref name="label_attribute"/>
+                            <optional>
+                                <ref name="lang_attribute"/>
+                            </optional>
+                            <choice>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>INTEGER</value>
+                                    </attribute>
+                                    <attribute name="value" >
+                                        <data type="integer" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>NUMERIC</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="decimal" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>VARCHAR</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>TIME</value>
+                                    </attribute>
+                                    <attribute name="value">
+<!--                                         <data type="time" /> -->
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>DATE</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                            </choice>
+                        </element>
+                    </oneOrMore>
+                </element>
+            </zeroOrMore>
+            <oneOrMore>
+                <element name="person">
+                    <ref name="acl_element" />
+                    <element name="entry">
+                        <attribute name="type">
+                            <value>person_data</value>
+                        </attribute>
+                        <attribute name="label">
+                            <value>name</value>
+                        </attribute>
+                        <optional>
+                            <ref name="lang_attribute"/>
+                        </optional>
+                        <attribute name="data_type">
+                            <value>VARCHAR</value>
+                        </attribute>
+                        <attribute name="value">
+                            <data type="token" />
+                        </attribute>
+                    </element>
+                    <zeroOrMore>
+                        <element name="entry">
+                            <attribute name="type">
+                                <value>person_data</value>
+                            </attribute>
+                            <ref name="label_attribute"/>
+                            <optional>
+                                <ref name="lang_attribute"/>
+                            </optional>
+                            <choice>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>INTEGER</value>
+                                    </attribute>
+                                    <attribute name="value" >
+                                        <data type="integer" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>NUMERIC</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="decimal" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>VARCHAR</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>TIME</value>
+                                    </attribute>
+                                    <attribute name="value">
+<!--                                         <data type="time" /> -->
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>                                                         
+                                    <attribute name="data_type">
+                                        <value>DATE</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                            </choice>
+                        </element>
+                    </zeroOrMore>
+                    <oneOrMore>
+                        <element name="entry">
+                            <attribute name="type">
+                                <value>function_data</value>
+                            </attribute>
+                            <ref name="label_attribute"/>
+                            <optional>
+                                <ref name="lang_attribute"/>
+                            </optional>
+                            <choice>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>INTEGER</value>
+                                    </attribute>
+                                    <attribute name="value" >
+                                        <data type="integer" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>NUMERIC</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="decimal" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>VARCHAR</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>TIME</value>
+                                    </attribute>
+                                    <attribute name="value">
+<!--                                         <data type="time" /> -->
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                                <group>
+                                    <attribute name="data_type">
+                                        <value>DATE</value>
+                                    </attribute>
+                                    <attribute name="value">
+                                        <data type="token" />
+                                    </attribute>
+                                </group>
+                            </choice>
+                        </element>
+                    </oneOrMore>
+                </element>
+            </oneOrMore>
+        </element>
+    </define>
+
+    <!--<define name="entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>default</value>
+            </attribute>
+            <ref name="label_attribute"/>
+            <optional>
+                <ref name="lang_attribute"/>
+            </optional>
+            <ref name="data_type_attribute"/>
+            <ref name="value_attribute" />
+        </element>
+    </define>-->
+
+    <define name="entry_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>default</value>
+            </attribute>
+            <ref name="label_attribute"/>
+            <optional>
+                <ref name="lang_attribute"/>
+            </optional>
+            <choice>
+                <group>
+                    <attribute name="data_type">
+                        <value>INTEGER</value>
+                    </attribute>
+                    <attribute name="value" >
+                        <data type="integer" />
+                    </attribute>
+                </group>
+                <group>
+                    <attribute name="data_type">
+                        <value>NUMERIC</value>
+                    </attribute>
+                    <attribute name="value">
+                        <data type="decimal" />
+                    </attribute>
+                </group>
+                <group>
+                    <attribute name="data_type">
+                        <value>VARCHAR</value>
+                    </attribute>
+                    <attribute name="value">
+                        <data type="token" />
+                    </attribute>
+                </group>
+                <group>
+                    <attribute name="data_type">
+                        <value>TIME</value>
+                    </attribute>
+                    <attribute name="value">
+<!--                         <data type="time" /> -->
+                        <data type="token" />
+                    </attribute>
+                </group>
+                <group>
+                    <attribute name="data_type">
+                        <value>DATE</value>
+                    </attribute>
+                    <attribute name="value">
+                        <data type="token"/>
+                    </attribute>
+                </group>
+            </choice>
+        </element>
+    </define>
+
+    <define name="name_element">
+        <element name="entry">
+            <attribute name="type">
+                <value>default</value>
+            </attribute>
+            <attribute name="label">
+                <value>name</value>
+            </attribute>
+            <optional>
+                <ref name="lang_attribute"/>
+            </optional>
+            <attribute name="data_type">
+                <value>VARCHAR</value>
+            </attribute>     
+            <attribute name="value">
+                <data type="token" />
+            </attribute>       
+        </element>
+    </define>
+    
+    <!--ATTRIBUTS-->
+    
+    <define name="file_size_attribute">
+        <attribute name="file_size">
+            <data type="token"/>
+        </attribute>
+    </define>
+    
+    <define name="format_attribute">
+        <attribute name="format">
+            <data type="token"/>
+        </attribute>
+    </define>
+    
+    <define name="codec_attribute">
+        <attribute name="codec">
+            <data type="token"/>
+        </attribute>
+    </define>
+    
+    <define name="seq_attribute">
+        <attribute name="seq">
+            <data type="integer"/>
+        </attribute>
+    </define>
+    
+    <define name="id_attribute">
+        <attribute name="id">
+            <data type="integer"/>
+        </attribute>
+    </define>
+
+    <!--<define name="value_attribute">
+        <attribute name="value">
+            <data type="token"/>
+        </attribute>
+    </define>-->
+    
+    <!--<define name="data_type_attribute">
+        <attribute name="data_type">
+            <choice>
+                <value>INTEGER</value>
+                <value>NUMERIC</value>
+                <value>VARCHAR</value>
+                <value>TIME</value>
+                <value>DATE</value>
+            </choice>
+        </attribute>
+    </define>-->
+    
+    <define name="lang_attribute">
+        <attribute name="lang">
+            <choice>
+                <value>de</value>
+                <value>en</value>
+                <value>fr</value>
+                <value>it</value>
+                <value></value>
+            </choice>
+        </attribute>
+    </define>
+    
+    <define name="label_attribute">
+        <attribute name="label">
+            <data type="token"/>
+        </attribute>
+    </define>
+</grammar>

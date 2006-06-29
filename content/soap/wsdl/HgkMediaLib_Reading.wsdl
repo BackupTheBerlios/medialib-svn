@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HgkMediaLib_ReadingInterface"
+targetNamespace="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php">
+  <portType name="HgkMediaLib_ReadingInterfacePort">
+    <operation name="find">
+      <input message="tns:findRequest" />
+      <output message="tns:findResponse" />
+    </operation>
+    <operation name="getInformation">
+      <input message="tns:getInformationRequest" />
+      <output message="tns:getInformationResponse" />
+    </operation>
+  </portType>
+  <binding name="HgkMediaLib_ReadingInterfaceBinding" type="tns:HgkMediaLib_ReadingInterfacePort">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="find">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php#find" />
+    </operation>
+    <operation name="getInformation">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php#getInformation" />
+    </operation>
+  </binding>
+  <service name="HgkMediaLib_ReadingInterfaceService">
+    <port name="tns:HgkMediaLib_ReadingInterfacePort" binding="tns:HgkMediaLib_ReadingInterfaceBinding">
+      <soap:address location="http://media1.hgkz.ch/winet-backend/soap/HgkMediaLib_Reading.php" />
+    </port>
+  </service>
+  <message name="findRequest">
+    <part name="sessionId" type="xsd:string" />
+    <part name="clauses" type="soap-enc:Array" />
+    <part name="sortOrder" type="soap-enc:Array" />
+    <part name="limit" type="xsd:int" />
+    <part name="lang" type="xsd:string" />
+  </message>
+  <message name="findResponse">
+    <part name="findReturn" type="soap-enc:Array" />
+  </message>
+  <message name="getInformationRequest">
+    <part name="sessionId" type="xsd:string" />
+    <part name="id" type="xsd:int" />
+    <part name="lang" type="xsd:string" />
+  </message>
+  <message name="getInformationResponse">
+    <part name="getInformationReturn" type="xsd:struct" />
+  </message>
+</definitions>

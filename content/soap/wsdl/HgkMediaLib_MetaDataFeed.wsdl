@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://localhost/winet-backend/soap/HgkMediaLib_MetaDataFeed.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HGKMediaLib_FeedInterface"
+targetNamespace="http://localhost/winet-backend/soap/HgkMediaLib_MetaDataFeed.php">
+    <documentation>Feed Interface</documentation>
+    <portType name="HGKMediaLib_FeedPort">
+        <operation name="feedData">
+            <input message="tns:feedDataRequest" />
+            <output message="tns:feedDataResponse" />
+        </operation>
+    </portType>
+    <binding name="HGKMediaLib_FeedBinding" type="tns:HGKMediaLib_FeedPort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="feedData">
+            <input>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+            <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_MetaDataFeed.php#feedData" />
+        </operation>
+    </binding>
+    <service name="HGKMediaLib_FeedService">
+        <port name="tns:HGKMediaLib_FeedPort" binding="tns:HGKMediaLib_FeedBinding">
+            <soap:address location="http://localhost/winet-backend/soap/HgkMediaLib_MetaDataFeed.php" />
+        </port>
+    </service>
+    <message name="feedDataRequest">
+        <part name="xml_feed_string" type="xsd:string" />
+    </message>
+    <documentation>eeds a meta data feed containing the meta data provided by the encoder.</documentation>
+    <message name="feedDataResponse">
+        <part name="feedDataReturn" type="xsd:boolean" />
+    </message>
+    <documentation>no errors if so or soap error with detailed error message.</documentation>
+</definitions>

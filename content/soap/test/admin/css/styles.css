@@ -1,0 +1,165 @@
+			<!--
+td							{font-size:11px;font-family:Helvetica,Arial,Verdana;color:#000000;}
+.popUp						{font-size:10px;font-family:Helvetica,Arial,Verdana;color:#000000;}
+.large						{font-size:12px;font-family:Helvetica,Arial,Verdana;color:#000000;}
+.legend						{font-size:10px;font-family:Helvetica,Arial,Verdana;color:#666666;}
+.title						{font-size:11px;font-family:Helvetica,Arial,Verdana;color:#666666;font-weight:bold;padding-left:1px;}
+.whiteTitle					{font-size:11px;font-family:Helvetica,Arial,Verdana;color:#FFFFFF;}
+.headLine					{font-size:10px;font-family:Helvetica,Arial,Verdana;color:#333333;font-weight:bold;text-align:justify;padding-left:1px;}
+.normText					{font-size:11px;font-family:Helvetica,Arial,Verdana;color:#666666;padding-left:1px;}
+.normTextLeft				{font-size:10px;font-family:Helvetica,Arial,Verdana;color:#333333;}
+.bullet						{font-size:10px;font-family:Helvetica,Arial,Verdana;color:#333333;}
+.smallTitle					{font-size:11px;font-family:Helvetica,Arial,Verdana;color:#000000;font-weight:bold;}
+
+.barText					{font-size:11px;font-family:Helvetica,Arial;color:#000000;}
+.barTextDisabled			{font-size:11px;font-family:Helvetica,Arial;color:#666666;}
+.whiteBarText				{font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;}
+.openFileSubBar				{font-size:11px;font-family:Helvetica,Arial;color:#CCCCCC;}
+.panelText					{font-size:11px;font-family:Helvetica,Arial;color:#000000;}
+
+a.barLink:link 				{font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;text-decoration:none;}
+a.barLink:visited			{font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;text-decoration:none;}
+a.barLink:hover				{font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;text-decoration:underline;}
+a.barLink:active 			{font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;text-decoration:underline;}
+
+td#rollover  				a {font-size:12px;display:block; padding:1px 0px 1px 2px; font-weight:bold; color:#FFFFFF; text-decoration:none;}
+td#rollover		  			a:hover {background-color: #FFFFFF;color: #CC1100;}
+td#rolloverSelected			a {font-size:12px;display:block; padding:1px 0px 1px 2px; font-weight:bold; background-color: #FFFFFF;color: #CC1100; text-decoration:none;}
+.whiteMenu  				{font-size:12px;display:block; padding:1px 0px 1px 2px; font-weight:bold; color:#FFFFFF; text-decoration:none;}
+
+td#rollover2  				a {font-size:12px;display:block; padding:1px 0px 1px 2px; color:#FFFFFF; text-decoration:none;}
+td#rollover2	  			a:hover {background-color: #FFFFFF;color: #CC1100;}
+td#rollover2Selected		a {font-size:12px;display:block; padding:1px 0px 1px 2px; background-color: #FFFFFF;color: #CC1100; text-decoration:none;}
+.whiteMenu2  				{font-size:12px;display:block; padding:1px 0px 1px 2px; color:#FFFFFF; text-decoration:none; height:13px;}
+
+td#rollover3  				a {display:block; padding:1px 0px 1px 7px; font-size:10px; color:#FFFFFF; text-decoration:none;}
+td#rollover3	  			a:hover {background-color: #FFFFFF; color: #CC1100;}
+td#rollover3Selected		a {display:block; padding:1px 0px 1px 7px; font-size:10px; background-color: #FFFFFF; color: #CC1100; text-decoration:none;}
+.whiteMenu3  				{display:block; padding:1px 0px 1px 2px; font-size:10px; color:#FFFFFF; text-decoration:none;}
+
+
+.success					{font-size:11px;font-family:Verdana;color:#006600;font-weight:bold;}
+.error						{font-size:11px;font-family:Verdana;color:#990000;font-weight:bold;}
+.note						{font-size:11px;font-family:Verdana;color:#FFFF33;font-weight:bold;}
+.gray						{font-size:11px;font-family:Verdana;color:#666666;}
+.delete						{font-size:11px;font-family:Verdana;color:#CC0000;text-decoration:line-through;}
+
+.barError					{padding-left:24px; padding-right:5px; padding-top:5px; padding-bottom:5px;font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;background-color:#990033;font-weight:bold;}
+.barSuccess					{padding-left:24px; padding-right:5px; padding-top:5px; padding-bottom:5px;font-size:11px;font-family:Helvetica,Arial;color:#FFFFFF;background-color:#669933;font-weight:bold;}
+
+.white						{color:#FFFFFF;}
+.black						{color:#000000;}
+.yellowBg 					{background-color:#FFFF66;}
+
+.caption					{font-size:9px;font-family:Verdana;color:#000000;}
+
+.small						{font-size:9px;font-family:Verdana;color:#333333;}
+.smallPopUp					{font-size:9px;font-family:Verdana;color:#333333;}
+
+a:link						{color:#000000;text-decoration:none;}
+a:visited					{color:#000000;text-decoration:none;}
+a:hover						{color:#000000;text-decoration:underline;}
+a:active					{color:#000000;text-decoration:underline;}
+
+a.pageLink:link 			{font-size:11px;color:#998D53;font-weight:bold;text-decoration:none;}
+a.pageLink:visited			{font-size:11px;color:#998D53;font-weight:bold;text-decoration:none;}
+a.pageLink:hover			{font-size:11px;color:#998D53;font-weight:bold;text-decoration:underline;}
+a.pageLink:active			{font-size:11px;color:#998D53;font-weight:bold;text-decoration:underline;}
+
+a.footerLink:link 			{font-size:11px;color:#666666;text-decoration:none;}
+a.footerLink:visited		{font-size:11px;color:#666666;text-decoration:none;}
+a.footerLink:hover			{font-size:11px;color:#666666;text-decoration:underline;}
+a.footerLink:active			{font-size:11px;color:#666666;text-decoration:underline;}
+
+a.openFileLink:link			{font-size:11px;font-family:Helvetica,Arial;color:#000000;text-decoration:none;}
+a.openFileLink:visited		{font-size:11px;font-family:Helvetica,Arial;color:#000000;text-decoration:none;}
+a.openFileLink:hover		{font-size:11px;font-family:Helvetica,Arial;color:#000000;text-decoration:underline;}
+a.openFileLink:active		{font-size:11px;font-family:Helvetica,Arial;color:#000000;text-decoration:underline;}
+
+a.openFileSubBarLink:link		{font-size:11px;font-family:Helvetica,Arial;color:#666666;text-decoration:none;}
+a.openFileSubBarLink:visited	{font-size:11px;font-family:Helvetica,Arial;color:#666666;text-decoration:none;}
+a.openFileSubBarLink:hover		{font-size:11px;font-family:Helvetica,Arial;color:#666666;text-decoration:underline;}
+a.openFileSubBarLink:active		{font-size:11px;font-family:Helvetica,Arial;color:#666666;text-decoration:underline;}
+
+a.titleLink:link 			{font-size:12px;color:#000000;font-weight:bold;text-decoration:none;}
+a.titleLink:visited			{font-size:12px;color:#000000;font-weight:bold;text-decoration:none;}
+a.titleLink:hover			{font-size:12px;color:#000000;font-weight:bold;text-decoration:underline;}
+a.titleLink:active 			{font-size:12px;color:#000000;font-weight:bold;text-decoration:underline;}
+
+a.ifLink:link				{font-size:10px;font-family:Verdana;color:#333333;text-decoration:none;}
+a.ifLink:visited			{font-size:10px;font-family:Verdana;color:#333333;text-decoration:none;}
+a.ifLink:hover				{font-size:10px;font-family:Verdana;color:#000000;text-decoration:underline;}
+a.ifLink:active				{font-size:10px;font-family:Verdana;color:#000000;text-decoration:underline;}
+
+
+body, p
+{
+	color: black;
+	font-size: 11px;
+	font-weight: normal;
+	font-family: Helvetica,Arial,Verdana;
+	line-height: 16px;
+}
+
+a {
+	text-decoration: none;
+	color: #ff0000;
+}
+a:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+a.toggle {
+/*	
+	font: 18px/0.85em arial,sans-serif;
+	color: #ffffff;
+*/
+}
+.wrapper {
+	border-bottom: 1px dotted grey;
+	border-right: 1px dotted grey;
+}
+.node {
+	background: #dddddd;
+	margin: 0 0 0 20px;
+	font-family: Helvetica,Arial,Verdana;
+	font-size: 11px;
+	padding-top: 4px;
+}
+.nodedescription {
+	margin-left: 0.8em;
+}
+
+.subtreedata {
+	margin-left: 24px;
+}
+
+.nodecontent {
+	margin-left: 24px;
+}
+
+.itemtable {
+	padding: 4px;
+}
+.label {
+	font-weight: normal;
+	color: #999999;
+	width: 120px;
+	text-align: right;
+	margin-left: 24px;
+}
+
+.nodeitems
+{
+	display: none;
+}
+
+.wrapper .title {
+	margin-left: 24px;
+}
+.linktitle {
+	font-weight: bold;
+}
+.informationobjectlabel, .dataobjectlabel {
+	color: #999999;
+}

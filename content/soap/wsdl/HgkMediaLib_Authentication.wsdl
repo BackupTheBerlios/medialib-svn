@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HGKMediaLib_AuthInterface"
+targetNamespace="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php">
+  <documentation></documentation>
+  <portType name="HGKMediaLib_AuthInterfacePort">
+    <operation name="dropSession">
+      <input message="tns:dropSessionRequest" />
+      <output message="tns:dropSessionResponse" />
+    </operation>
+    <operation name="getAnonymousSession">
+      <input message="tns:getAnonymousSessionRequest" />
+      <output message="tns:getAnonymousSessionResponse" />
+    </operation>
+    <operation name="getDomains">
+      <input message="tns:getDomainsRequest" />
+      <output message="tns:getDomainsResponse" />
+    </operation>
+    <operation name="getSession">
+      <input message="tns:getSessionRequest" />
+      <output message="tns:getSessionResponse" />
+    </operation>
+    <operation name="getUserData">
+      <input message="tns:getUserDataRequest" />
+      <output message="tns:getUserDataResponse" />
+    </operation>
+  </portType>
+  <binding name="HGKMediaLib_AuthInterfaceBinding"
+  type="tns:HGKMediaLib_AuthInterfacePort">
+    <soap:binding style="rpc"
+    transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="dropSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php#dropSession" />
+    </operation>
+    <operation name="getAnonymousSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php#getAnonymousSession" />
+    </operation>
+    <operation name="getDomains">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php#getDomains" />
+    </operation>
+    <operation name="getSession">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php#getSession" />
+    </operation>
+    <operation name="getUserData">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php#getUserData" />
+    </operation>
+  </binding>
+  <service name="HGKMediaLib_AuthInterfaceService">
+    <port name="tns:HGKMediaLib_AuthInterfacePort"
+    binding="tns:HGKMediaLib_AuthInterfaceBinding">
+      <soap:address location="http://localhost/winet-backend/soap/HgkMediaLib_Authentication.php" />
+    </port>
+  </service>
+  <message name="dropSessionRequest">
+    <part name="session" type="xsd:anyType" />
+  </message>
+  <documentation>The dropSession() methode unvalidates the given
+  $session ID</documentation>
+  <message name="dropSessionResponse">
+    <part name="dropSessionReturn" type="xsd:boolean" />
+  </message>
+  <message name="getAnonymousSessionRequest" />
+  <documentation>Get session for an unknown, anonymous
+  user</documentation>
+  <message name="getAnonymousSessionResponse">
+    <part name="getAnonymousSessionReturn" type="xsd:anyType" />
+  </message>
+  <documentation>session id</documentation>
+  <message name="getDomainsRequest" />
+  <documentation>get a list of available domains</documentation>
+  <message name="getDomainsResponse">
+    <part name="getDomainsReturn" type="soap-enc:Array" />
+  </message>
+  <documentation>of string</documentation>
+  <message name="getSessionRequest">
+    <part name="userName" type="xsd:string" />
+    <part name="password" type="xsd:string" />
+    <part name="domain" type="xsd:string" />
+  </message>
+  <documentation>Authenticate using standard
+  credentials</documentation>
+  <message name="getSessionResponse">
+    <part name="getSessionReturn" type="xsd:anyType" />
+  </message>
+  <documentation>session Id</documentation>
+  <message name="getUserDataRequest">
+    <part name="session" type="xsd:anyType" />
+  </message>
+  <documentation>Get user data (real name, name of institution,
+  etc.)</documentation>
+  <message name="getUserDataResponse">
+    <part name="getUserDataReturn" type="xsd:struct" />
+  </message>
+  <documentation>user data.</documentation>
+</definitions>

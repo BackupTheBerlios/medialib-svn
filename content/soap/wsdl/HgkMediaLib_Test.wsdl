@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://localhost/winet-backend/soap/HgkMediaLib_Test.php"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+name="HGKMediaLib_AuthInterface"
+targetNamespace="http://localhost/winet-backend/soap/HgkMediaLib_Test.php">
+  <portType name="HGKMediaLib_TestInterfacePort">
+    <operation name="test">
+      <input message="tns:testRequest" />
+      <output message="tns:testResponse" />
+    </operation>
+  </portType>
+  <binding name="HGKMediaLib_TestInterfaceBinding"
+  type="tns:HGKMediaLib_TestInterfacePort">
+    <soap:binding style="rpc"
+    transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="test">
+      <input>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+      <output>
+        <soap:body use="encoded"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+      <soap:operation soapAction="http://localhost/winet-backend/soap/HgkMediaLib_Test.php#test" />
+    </operation>
+  </binding>
+  <service name="HGKMediaLib_TestInterfaceService">
+    <port name="tns:HGKMediaLib_TestInterfacePort"
+    binding="tns:HGKMediaLib_TestInterfaceBinding">
+      <soap:address location="http://localhost/winet-backend/soap/HgkMediaLib_Test.php" />
+    </port>
+  </service>
+  <message name="testRequest" />
+  <message name="testResponse">
+    <part name="testReturn" type="soap-enc:Array" />
+  </message>
+</definitions>
