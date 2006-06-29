@@ -1,8 +1,6 @@
 <?php
 /**
  * DUMMY SOAP server for reading access to the backend
- *  
- * This is just a dummy, not the real thing. For documentation please consult
  * the interface definition.
  * 
  * Copyright 2005-2006 Pierre Spring, mediagonal Ag <pierre.spring@mediagonal.ch>
