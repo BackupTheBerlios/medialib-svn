@@ -36,6 +36,14 @@ class HGKMediaLib_Struct_InformationBlock{
      * @access public
      */
     public $title;
+
+    public function __construct($data='',$files='',$id='',$title='')
+    {
+        $this->data = $data;
+        $this->files = $files;
+        $this->id = $id;
+        $this->title = $title;
+    }
 }
 
 ?>

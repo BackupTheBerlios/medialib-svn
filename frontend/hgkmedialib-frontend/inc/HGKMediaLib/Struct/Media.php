@@ -5,7 +5,7 @@ class HGKMediaLib_Struct_Media {
      * The $data field contains an array of 
      * HGKMediaLib_Struct_Data objects.
      * 
-     * @var mixed
+     * @var HGKMediaLib_Struct_Data  
      * @access public
      */
     public $data;
@@ -15,8 +15,8 @@ class HGKMediaLib_Struct_Media {
      * 
      * @var array of HGKMediaLib_Struct_Files objects
      * @access public
+    public $files;
      */
-    // public $files;
 
     /**
      * The database id for a media
@@ -27,7 +27,7 @@ class HGKMediaLib_Struct_Media {
     public $id;
     
     /**
-     * Contains the name of a media 
+     * Contains the name/description of a media 
      * 
      * @var string
      * @access public
@@ -42,5 +42,21 @@ class HGKMediaLib_Struct_Media {
      */
     public $urn;
 
+    /**
+     * Conatains the mime_type of the media
+     * 
+     * @var string
+     * @access public
+     */
+    public $mime_type;
+
+    public function __construct($data='',$id='',$name='',$urn='',$mime_type='')
+    {
+        $this->data = $data;
+        $this->id = $id;
+        $this->name = $name;
+        $this->urn = $urn;
+        $this->mime_type = $mime_type;
+    }
 }
 ?>

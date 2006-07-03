@@ -201,9 +201,9 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
             if ($soapResult) {
                 $_SESSION[$entityID] = array();
                 $_SESSION[$entityID]['title'] = $soapResult->title;
-                $_SESSION[$entityID]['VBM'] = array();
-                $_SESSION[$entityID]['data'] = array();
-                $_SESSION[$entityID]['COV'] = array();
+                $_SESSION[$entityID]['VBM']   = array();
+                $_SESSION[$entityID]['data']  = array();
+                $_SESSION[$entityID]['COV']   = array();
                 $_SESSION[$entityID]['files'] = array();
                 // build subtree and get VBM and COV information
                 $_SESSION[$entityID]['SubTree'] = $this->_subTree($soapResult, $entityID);

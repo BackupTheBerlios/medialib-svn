@@ -62,5 +62,15 @@ class HGKMediaLib_Struct_Entity {
      */
     public $title;
 
+    public function __construct($collection='',$collection_id='',$cover_media='',$date='',$description='',$id='',$title='')
+    {
+        $this->collection = $collection;
+        $this->collectionId = $collection_id;
+        $this->coverMedia = $cover_media;
+        $this->date = $date;
+        $this->description = $description;
+        $this->id = $id;
+        $this->title = $title;
+    }
 }
 ?>

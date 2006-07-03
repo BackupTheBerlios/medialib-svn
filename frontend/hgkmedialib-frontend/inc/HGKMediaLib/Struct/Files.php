@@ -15,6 +15,12 @@ class HGKMediaLib_Struct_Files{
      * @access public
      */
     public $urn;
+
+    public function __construct($name='',$urn='')
+    {
+        $this->name = $name;
+        $this->urn = $urn;
+    }
 }
 
 ?>

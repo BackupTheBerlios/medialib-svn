@@ -83,89 +83,16 @@ class HGKMediaLib_Struct_Information{
      */
     public $title;
 
-    /**
-     * originalTitle 
-     * 
-     * @var string
-     * @access public
-     */
-    public $originalTitle;
-    
-    /**
-     * productionYear 
-     * 
-     * @var string
-     * @access public
-     */
-    public $productionYear;
-    
-    /**
-     * productionCountry 
-     * short (nebis/marc standard)
-     * 
-     * @var string
-     * @access public
-     */
-    public $productionCountry;
-    
-    /**
-     * channel 
-     * short (nebis/marc standard)
-     * 
-     * @var string
-     * @access public
-     */
-    public $channel;
-    
-    /**
-     * transmissionDate 
-     * 
-     * @var string
-     * @access public
-     */
-    public $transmissionDate;
-
-    /**
-     * color 
-     * 
-     * @var string
-     * @access public
-     */
-    public $color;
-
-    /**
-     * langOne 
-     * short (nebis/marc standard)
-     * 
-     * @var string
-     * @access public
-     */
-    public $langOne;
-
-    /**
-     * langTwo 
-     * short (nebis/marc standard)
-     * 
-     * @var string
-     * @access public
-     */
-    public $langTwo;
-
-    /**
-     * duration 
-     * 
-     * @var string
-     * @access public
-     */
-    public $duration;
-
-    /**
-     * decade 
-     * 
-     * @var string
-     * @access public
-     */
-    public $decade;
+    public function __contructor($collection='',$collection_id='',$date='',$description='',$id='',$information_blocks='',$subtree='',$title='')
+    {
+        $this->collection = $collection;
+        $this->collectionId = $collection_id;
+        $this->date = $date;
+        $this->description = $description;
+        $this->id = $id;
+        $this->informationBlocks = $informationBlocks;
+        $this->subtree = $subtree;
+        $this->title = $title;
+    }
 }
-
 ?>

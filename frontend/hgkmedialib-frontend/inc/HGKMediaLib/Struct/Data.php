@@ -25,6 +25,13 @@ class HGKMediaLib_Struct_Data{
      * @access public
      */
     public $value;
+
+    public function __construct($label='',$name='',$value='')
+    {
+        $this->label = $label;
+        $this->name = $name;
+        $this->value = $value;
+    }
 }
 
 ?>
