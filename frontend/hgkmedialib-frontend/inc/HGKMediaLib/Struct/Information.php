@@ -83,14 +83,14 @@ class HGKMediaLib_Struct_Information{
      */
     public $title;
 
-    public function __contructor($collection='',$collection_id='',$date='',$description='',$id='',$information_blocks='',$subtree='',$title='')
+    public function __construct($collection='',$collection_id='',$date='',$description='',$id='',$information_blocks='',$subtree='',$title='')
     {
         $this->collection = $collection;
         $this->collectionId = $collection_id;
         $this->date = $date;
         $this->description = $description;
         $this->id = $id;
-        $this->informationBlocks = $informationBlocks;
+        $this->informationBlocks = $information_blocks;
         $this->subtree = $subtree;
         $this->title = $title;
     }

@@ -6,7 +6,7 @@ function renderInformation(type, data){
             $H(data).each(function(entity){
                 result += '<dl class="info">';
                 entity.value.each(function(element){
-                    result += '<dd class="info">' + " " + element['name'] + ':&nbsp;</dd><dt class="info"> ' + " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value']+ " " + element['value'] + '</dt>';
+                    result += '<dd class="info">' + " " + element['name'] + ':&nbsp;</dd><dt class="info"> ' + " " + element['value']+ '</dt>';
                 });       
                 result += '</dl>';
                 }); 

@@ -67,6 +67,28 @@ interface HGKMediaLib_ReadingInterface{
      */
     public function getInformation($sessionId, $id, $lang = 'de');
 
+    /**
+     * The getSuggestions() methode is used to retrive information used for aided
+     * input during advanced search in the frontend.
+     *
+     * the $mode is defined by one of the following strings:
+     *
+     * collection
+     * language  (long version)
+     * country   (long version)
+     * actor    
+     * director 
+     * author   
+     * publisher (i.e. sender OR studio)
+     * keywords 
+     * 
+     * @param string $sessionId 
+     * @param string $mode 
+     * @access public
+     * @return array of String
+     */
+    public function getSuggestions($sessionId, $mode);
+
 }
 
 

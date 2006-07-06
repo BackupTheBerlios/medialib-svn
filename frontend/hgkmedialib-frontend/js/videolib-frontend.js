@@ -64,7 +64,7 @@ function search(mode) {
                             }
                         }); 
             } else {
-                var newlocation = "news=&collections"+val+"=&title=";
+                var newlocation = "news=&collections="+val+"&title=";
             }
             dhtmlHistory.add(newlocation, null);
             remoteReader.getByCollection(val);  

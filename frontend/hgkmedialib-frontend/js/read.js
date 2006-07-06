@@ -40,7 +40,8 @@ var readerCallback = {
         document.getElementById('advancedSearchView').style.display = "none";
         document.getElementById('informationView').style.display = "block";
         document.getElementById('informationImages').style.display = "block";
-		if(document.getElementById('playlistView').style.display != "block"){
+		document.getElementById('playlistView').style.display != "block";
+		if(document.getElementById('playlistData').innerHTML == ''){
 			get('playlists', "");	 
 		}
         document.getElementById('playlistView').style.display = "block";

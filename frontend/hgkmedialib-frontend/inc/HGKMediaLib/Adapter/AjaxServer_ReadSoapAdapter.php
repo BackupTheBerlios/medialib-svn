@@ -22,14 +22,14 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
     public function getByCollection($string)
     {
         $order = array(
-            'Titel' => 'asc'
+            'Title' => 'asc'
         );
         if (is_null($string)){
             // clause searching for TODAY
             $today = array(
                 array(
                     'connector' => '',
-                    'subject' => 'Titel',
+                    'subject' => 'Title',
                     'predicate' => '~',
                     'object' => 'Mord'
                 )
@@ -39,7 +39,7 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
             $clause = array(
                 array(
                     'connector' => '',
-                    'subject' => 'Titel',
+                    'subject' => 'Title',
                     'predicate' => '~',
                     'object' => $string
                 )
@@ -71,13 +71,13 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         $clause = array(
             array(
                 'connector' => '',
-                'subject' => 'Titel',
+                'subject' => 'Title',
                 'predicate' => '~',
                 'object' => 'Mord'
             )
         );
         $order = array(
-            'Titel' => 'asc'
+            'Title' => 'asc'
         );
         $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 20, 'de'); 
         
@@ -91,14 +91,14 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
     public function getByTitle($string)
     {
         $order = array(
-            'Titel' => 'asc'
+            'Title' => 'asc'
         );
         if (is_null($string)){
             // clause searching for TODAY
             $today = array(
                 array(
                     'connector' => '',
-                    'subject' => 'Titel',
+                    'subject' => 'Title',
                     'predicate' => '~',
                     'object' => 'Mord'
                 )
@@ -108,7 +108,7 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
             $clause = array(
                 array(
                     'connector' => '',
-                    'subject' => 'Titel',
+                    'subject' => 'Title',
                     'predicate' => '~',
                     'object' => $string 
                 )
@@ -145,13 +145,13 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         $today = array(
             array(
                 'connector' => '',
-                'subject' => 'Titel',
+                'subject' => 'Title',
                 'predicate' => '~',
                 'object' => 'Mord'
             )
         );
         $order = array(
-            'Titel' => 'asc'
+            'Title' => 'asc'
         );
         $result = $this->_soapClient->find($this->_getSoapSession(), $today, $order, 6, 'de');
         for ($i = 0; $i < count($result); $i++){
@@ -166,13 +166,13 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         $clause = array(
             array(
                 'connector' => '',
-                'subject' => 'Titel',
+                'subject' => 'Title',
                 'predicate' => '~',
                 'object' => $search
             )
         );
         $order = array(
-            'Titel' => 'asc'
+            'Title' => 'asc'
         );
         $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 0, 'de');
 
