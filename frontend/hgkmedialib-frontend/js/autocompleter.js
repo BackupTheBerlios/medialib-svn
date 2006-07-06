@@ -118,3 +118,28 @@ Autocompleter.Date.prototype = Object.extend(new Autocompleter.Base(), {
   }
 });
 
+ajaxRefCounter = 0;
+ajaxRefTable = [];
+
+Autocompleter.PearAjax = Class.create();
+Autocompleter.PearAjax.prototype = Object.extend(Object.extend(Autocompleter.Base.prototype), {
+  initialize: function(element, update, pearajax, options) {
+    this.baseInitialize(element, update, options);
+    this.pearajax = pearajax;
+  },
+
+  getUpdatedChoices: function() {
+    entry = encodeURIComponent(this.options.paramName) + '=' +
+      encodeURIComponent(this.getToken());
+
+    var RefCounter = ajaxRefCounter++;
+    ajaxRefTable[RefCounter] = this;
+
+    eval(this.pearajax + "('"+ RefCounter +"','"+ entry +"');");
+  },
+
+  onComplete: function(list) {
+    this.updateChoices(list);
+  }
+
+});

@@ -140,6 +140,11 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         return $_SESSION[$entityID]['SubTree'];
     }
 
+    public function getSuggestions($mode){
+    //    $this->_cacheSuggestions($mode);
+    //    return $_SESSION['suggestions'][$mode];
+    }
+    
     public function getThumbs()
     {
         $today = array(

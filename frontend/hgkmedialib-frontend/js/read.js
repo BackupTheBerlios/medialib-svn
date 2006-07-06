@@ -1,6 +1,9 @@
 // create a javascript hash to hold or callback methods
 var readerCallback = {
 	
+	getActors: function(result){
+        eval(result["Ref"] + ".onComplete("+result[list]+")");           
+    },
 	getByDate: function(result){
         document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';
         document.getElementById('newsView').style.display = "block";
