@@ -26,11 +26,21 @@ class HGKMediaLib_Struct_Data{
      */
     public $value;
 
-    public function __construct($label='',$name='',$value='')
+    /**
+     * The id of the entity (person or group) 
+     * 
+     * @var integer
+     * @access public
+     */
+    public $id;
+
+
+    public function __construct($label='',$name='',$value='',$id='')
     {
         $this->label = $label;
         $this->name = $name;
         $this->value = $value;
+        $this->id = $id;
     }
 }
 

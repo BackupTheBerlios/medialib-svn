@@ -28,8 +28,11 @@ class HGKMediaLib_AjaxServer_Read extends HGKMediaLib_AjaxExportable  {
         parent::__construct($this);
     }
 	
-	function getActors($ref, $string){
-        return array("Ref" => $ref, "List" => "<ul><li>yessir</li></ul>")
+	function getSuggestions($ref, $string){
+        $array = explode('=', $string);
+        $array[0] = urldecode($array[0]);
+        $array[1] = urldecode($array[1]);
+        return array("Ref" => $ref, "list" => $this->_adapter->getSuggestions($array[0], $array[1]));
     }
 	function getByCollection($string = "")
     {

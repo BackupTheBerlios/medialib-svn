@@ -123,13 +123,14 @@ ajaxRefTable = [];
 
 Autocompleter.PearAjax = Class.create();
 Autocompleter.PearAjax.prototype = Object.extend(Object.extend(Autocompleter.Base.prototype), {
-  initialize: function(element, update, pearajax, options) {
+  initialize: function(element, update, pearajax, mode, options) {
     this.baseInitialize(element, update, options);
+    this.mode = mode;
     this.pearajax = pearajax;
   },
 
   getUpdatedChoices: function() {
-    entry = encodeURIComponent(this.options.paramName) + '=' +
+    entry = encodeURIComponent(this.mode) + '=' +
       encodeURIComponent(this.getToken());
 
     var RefCounter = ajaxRefCounter++;

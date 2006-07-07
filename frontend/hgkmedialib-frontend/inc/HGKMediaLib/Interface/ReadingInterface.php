@@ -29,14 +29,22 @@ interface HGKMediaLib_ReadingInterface{
      * Find using an extended query.
      *
      * One clause looks like this:
-     * 
      * array(
      *  'connector' => {AND, OR}
      *  'subject'   => '..' // name of property to be matched against, set is to be defined
-     *  'predicate' => {'=', '~', '!=', '!~'} // equal, like, not equal, not like
+     *  'predicate' => {'=', '~', '!=', '!~', '<=>'} // equal, like, not equal, not like, between
      *  'object'    => '..' // property value to match
      *  )
-     * 
+     *
+     *  exmaple for date BETWEEN date1 AND date2:
+     *
+     * $clauses = array(
+     *      'connector' => 'AND',
+     *      'subject' => 'date',
+     *      'predicate' => '<=>',
+     *      'object' => '2004[-06[-01]] AND 2004[-07[-03]]'
+     * );
+     *
      * $clauses can contain any number of these.
      * 
      * The $sortOrder is an associative array, with the lable as key, and the order as value, e.g.

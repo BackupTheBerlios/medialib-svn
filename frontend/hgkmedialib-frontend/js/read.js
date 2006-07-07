@@ -1,8 +1,8 @@
 // create a javascript hash to hold or callback methods
 var readerCallback = {
 	
-	getActors: function(result){
-        eval(result["Ref"] + ".onComplete("+result[list]+")");           
+	getSuggestions: function(result){
+        if (result["Ref"] == ajaxRefTable.length - 1) ajaxRefTable[result["Ref"]].onComplete(result["list"]);           
     },
 	getByDate: function(result){
         document.body.style.backgroundImage = 'url(/fluxcms/themes/3-cols/images/bgNews.png)';

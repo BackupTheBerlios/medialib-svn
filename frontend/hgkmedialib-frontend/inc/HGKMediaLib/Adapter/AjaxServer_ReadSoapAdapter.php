@@ -3,6 +3,8 @@ if (session_id() == '') {
     session_start();        
 }
 
+//require_once('../../../conf/config.php');
+
 /**
  * adapter between the AjaxServer and the Soap Class for reading
  * 
@@ -140,9 +142,49 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         return $_SESSION[$entityID]['SubTree'];
     }
 
-    public function getSuggestions($mode){
-    //    $this->_cacheSuggestions($mode);
-    //    return $_SESSION['suggestions'][$mode];
+    public function getSuggestions($mode, $string){
+        $this->_cacheSuggestions($mode);
+
+        $array          = $_SESSION['suggestions'][$mode];
+        $entry          = $string;
+        $fullSerch      = false;
+        $ignoreCase     = true;
+        $maxResults     = 25;
+        $partial        = array();
+        $partialSearch  = true;
+        $partialChars   = 2;
+        $ret            = array();
+        $count = 0;
+        for ($i = 0; $i < count($array); $i++){
+            if(count($ret) > $maxResults)break;
+            $element = $array[$i];
+
+            $foundPosition = $ignoreCase ? strpos(strtolower($element), strtolower($entry)) : strpos($element, $entry);       
+            if ($foundPosition === false) $foundPosition = -1;
+$j = 0;            
+            while ($foundPosition != -1){
+                if ($foundPosition == 0 && strlen($entry) != strlen($element)){
+                    array_push($ret, "<li><strong>" . substr($element, 0, strlen($entry)) . "</strong>" . substr($element, strlen($entry)));
+                    break;
+                } elseif (strlen($entry) >= $partialChars && $partialSearch && $foundPosition != -1){
+                    if ($fullSerch || preg_match('/\s/', substr($element, $foundPosition - 1, 1))){
+                        array_push($partial, "<li>" . substr($element, 0, $foundPosition) . "<strong>" .
+                            substr($element, $foundPosition, strlen($entry)) . "</strong>" . 
+                            substr($element, $foundPosition + strlen($entry)) . "</li>");
+                        break;
+                    }
+                }
+                $newPosition = $ignoreCase ? strpos(strtolower(substr($element, $foundPosition + 1)), strtolower($entry)) : strpos(substr($element, $foundPosition + 1), $entry);       
+                $foundPosition = ($newPosition === false) ? -1 : $newPosition + $foundPosition + 1;
+            }
+        }
+
+        if (count($partial) && ($maxResults - count($ret)) > 0){
+           for ($i = 0; $i < count($partial) && ($maxResults - count($ret)) > 0; $i++)
+               array_push($ret, $partial[$i]);
+        }
+        return "<ul>" . implode("", $ret) . '</ul>';
+        return "<ul><li>adapter</li></ul>";
     }
     
     public function getThumbs()
@@ -234,6 +276,13 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
         }
     }
 
+    private function _cacheSuggestions($mode)
+    {
+        if (!isset($_SESSION['suggestions'][$mode])){
+            $_SESSION['suggestions'][$mode] = $this->_soapClient->getSuggestions($this->_getSoapSession(), $mode);
+        }
+    }
+
     private function _subTree($object, $entityID)
     {
         $result = array();
@@ -252,5 +301,6 @@ class HGKMediaLib_AjaxServer_ReadSoapAdapter extends Adapter {
     }
 }
 
-
+//$ad = new HGKMediaLib_AjaxServer_ReadSoapAdapter();
+//var_export($ad->getSuggestions('sfd', 't'));
 ?>
