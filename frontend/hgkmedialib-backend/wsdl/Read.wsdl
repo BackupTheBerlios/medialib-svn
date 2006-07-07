@@ -34,6 +34,10 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
       <input message="tns:getInformationRequest" />
       <output message="tns:getInformationResponse" />
     </operation>
+<operation name="getSuggestions">
+<input message="tns:getSuggestionsRequest" />
+<output message="tns:getSuggestionsResponse" />
+</operation>
   </portType>
   <binding name="HGKMediaLib_ReadingInterfaceBinding"
   type="tns:HGKMediaLib_ReadingInterfacePort">
@@ -61,6 +65,17 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
       </output>
       <soap:operation soapAction="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapTestServer/Read.php#getInformation" />
     </operation>
+<operation name="getSuggestions">
+<input>
+<soap:body use="encoded"
+encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</input>
+<output>
+<soap:body use="encoded"
+encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+</output>
+<soap:operation soapAction="http://media1.hgkz.ch/path/to/Read.php#getSuggestions" />
+</operation>
   </binding>
   <service name="HGKMediaLib_ReadingInterfaceService">
     <port name="tns:HGKMediaLib_ReadingInterfacePort"
@@ -100,4 +115,18 @@ targetNamespace="http://media1.hgkz.ch/hgkmedialib-backend/inc/HGKMediaLib/SoapT
     <part name="getInformationReturn" type="xsd:struct" />
   </message>
   <documentation>HGKMediaLib_Struct_Information</documentation>
+    <message name="getSuggestionsRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="mode" type="xsd:string" />
+    </message>
+    <documentation>The getSuggestions() methode is used to retrive
+    information used for aided input during advanced search in the
+    frontend. the $mode is defined by one of the following strings:
+    collection language (long version) country (long version) actor
+    director author publisher (i.e. sender OR studio)
+    keywords</documentation>
+    <message name="getSuggestionsResponse">
+        <part name="getSuggestionsReturn" type="soap-enc:Array" />
+    </message>
+    <documentation>of String</documentation>
 </definitions>

@@ -17,7 +17,7 @@ header("content-type: text/plain");
 
 
 try {
-    $client = new SoapClient(HKGMEDIALIB_WSDL_BASEDIR . '/Auth.wsdl');
+    $client = new SoapClient(HKGMEDIALIB_WSDL_BASEDIR . '/Auth.toDummyServer.wsdl');
     //$client = new SoapClient('http://media1.hgkz.ch/winet-backend/soap/wsdl/HgkMediaLib_Authentication.wsdl');
     echo "we call getSession('user', 'pwd', 'domain') - Returns a new session id:\n";
     echo "*******************************************\n\n";
@@ -28,7 +28,7 @@ try {
     echo "\n";
 
     echo HKGMEDIALIB_WSDL_BASEDIR . 'Read.wsdl';
-    $client = new SoapClient(HKGMEDIALIB_WSDL_BASEDIR . 'Read.wsdl');
+    $client = new SoapClient(HKGMEDIALIB_WSDL_BASEDIR . '/Read.toDummyServer.wsdl');
     //$client = new SoapClient('http://media1.hgkz.ch/winet-backend/soap/wsdl/HgkMediaLib_Reading.wsdl');
     
     echo "Functions available:\n";
@@ -48,7 +48,7 @@ try {
     
     $result =  $client->getSuggestions($session, "actor");
     var_export($result);
-   
+    
     echo "\n\n";
     echo "we call the findByTitle():\n";
     echo "**************************\n\n";
@@ -60,7 +60,7 @@ try {
     echo "we call getInformation():\n";
     echo "*************************\n\n";
     
-   $result =  $client->getInformation($session, 'nebis_5225', 'de');
+   $result =  $client->getInformation($session, 99840, 'de');
     var_export($result);
 } catch (Exception $e) {
     //  var_export($client->__getLastResponse());
