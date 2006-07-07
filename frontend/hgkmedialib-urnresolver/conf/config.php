@@ -11,7 +11,7 @@
  * @package HGKMediaLib
  * @version $Id$
  */
-require_once('./secret.php');
+require_once(dirname(__FILE__) . '/secret.php');
 define('HGKMEDIALIB_INCLUDE', realpath(dirname(__FILE__) . '/../inc') . DIRECTORY_SEPARATOR);
 
 define('HGKMEDIALIB_CLASSPREFIX', 'HGKMediaLib');
