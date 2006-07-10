@@ -59,7 +59,7 @@
 					</div>
 					<div class="spacer"/>
 					<div class="fullDiv" id="content" bxe_xpath="/xhtml:html/xhtml:body">
-						<div class="envelop">
+						<div class="envelop1">
 							<xsl:call-template name="content"/>
 						</div>
 					</div>

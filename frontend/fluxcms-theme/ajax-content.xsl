@@ -36,11 +36,13 @@
                 <meta name="description" content="{$sitedescription}"/>
                 <meta http-equiv="imagetoolbar" content="no"/>
                 <link rel="openid.server" href="{$webroot}admin/webinc/openid/"/>
-                <link type="text/css" href="{$webroot}themes/{$theme}/css/{$themeCss}" rel="stylesheet" media="screen"/>
+                <link type="text/css" href="{$webroot}themes/{$theme}/css/ajax.css" rel="stylesheet" media="screen"/>
                 <link type="text/css" href="{$webroot}themes/{$theme}/css/mobile.css" rel="stylesheet" media="handheld"/>
                 <title>
                     <xsl:call-template name="html_head_title"/>
                 </title>
+                <!-- Load the Really Simple History framework -->
+                <script type="text/javascript" src="/hgkmedialib-frontend/js/really_simple_history/dhtmlHistory.js"/>
 				<script src="/hgkmedialib-frontend/js/scriptaculous/lib/prototype.js" type="text/javascript"></script>
                 <script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Read"/>  
 				<script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Playlist"/>                
@@ -71,12 +73,20 @@
                         </div>
                         
                         <div id="overallSearch">
-                            <i18n:text>search</i18n:text>
+                            <span>
+                                <i18n:text>title</i18n:text>
+                            </span>
                             <br />
                             <input type="text" id="overallSearchField" onkeypress="trapEnter(event, 'overallSearchField');"/>
-                            <br /><div id="advancedSeacrh">
+                            <br />
+                            <div id="addSearchField">
+                                <a href="" class="addSearchFieldLink" onclick="add('searchField', event); return false;">
+                                    <i18n:text>add search field</i18n:text>
+                                </a>
+                            </div>
+                            <div id="advancedSeacrh">
                                 <span onclick="search('overallSearchField'); return false;">
-                                    <a href="#" class="advancedSearchLink">
+                                    <a href="" class="advancedSearchLink">
                                         <i18n:text>search</i18n:text>
                                     </a>
                                 </span>
@@ -137,21 +147,15 @@
                             <div id="informationData"/>
                         </div>
                     </div>
-                    <ul id="addItemContainer" >
-                    <!--
-                    <li><span id='addSpan'>test</span></li></ul>
-                    -->
-                    <li class="playlistItem" id="lalala_lalala_lalala"><div class="buttons"><img class="playbutton button" src="/fluxcms/themes/3-cols/images/play.png"></img><img class="removebutton button" src="/fluxcms/themes/3-cols/images/remove.png"></img></div><div class="connectors"><img align="right" class="icon"  src="/fluxcms/themes/3-cols/images/treeimgs/dark/leaf.png"/></div><span id='addSpan' class="handle">test</span></li></ul>
-                    <!--
-                    -->
                     
                     <div id="playlistView" class="fullAndFloat">
                         <div id="playlist" class="fullAndFloat">
                             <div id="playlistBrowser" class="browser">
                                 My Playlists:
                             </div>
-                            <div id="playlistNew"><a href="#" onclick="playlist('new', '', '', '')">New Playlist</a></div>
+                            <div id="playlistNew"><a href="#" onclick="playlist('new', '', '', ''); return false;">New Playlist</a></div>
                             <div id="playlistData" class="envelop"/>
+                            <ul id="addItemContainer" />
                         </div>
                     </div>
                     <!--

@@ -9,7 +9,6 @@ xmlns:blog="http://bitflux.org/doctypes/blog" xmlns:bxf="http://bitflux.org/func
     
     <xsl:variable name="blogname" select="php:functionString('bx_helpers_config::getOption','blogname')"/>
     <xsl:variable name="blogroot" select="concat(substring($webroot,1,string-length($webroot)-1),$collectionUri)"/>
-
     <xsl:output encoding="utf-8" method="xml"/>
     <xsl:variable name="singlePost">
         <xsl:choose>
@@ -28,7 +27,6 @@ xmlns:blog="http://bitflux.org/doctypes/blog" xmlns:bxf="http://bitflux.org/func
         </xsl:choose>
     </xsl:variable>
     <xsl:template name="content">
-
         <xsl:choose>
             <xsl:when test="$singlePost = 'true'">
                 <xsl:call-template name="blogSinglePost"/>
@@ -136,8 +134,6 @@ and adjust the delicious template itself
     </xsl:template>
 
     <xsl:template name="blogOverview">
-
-
         <xsl:for-each select="/bx/plugin[@name = 'blog']/xhtml:html/xhtml:body/xhtml:div[@class='entry']">
             <xsl:apply-templates select="." mode="xhtml"/>
             <xsl:if test="position() = 1">
@@ -155,22 +151,23 @@ and adjust the delicious template itself
 
     <xsl:template match="xhtml:div[@class = 'comments']" mode="xhtml">
         <div id="googleAd"/>
-        <h3 class="blog">comments</h3>
+        <h3 class="blog"><i18n:text i18n:key="blogComments">Comments</i18n:text></h3>
         <xsl:apply-templates mode="xhtml"/>
         <xsl:if test="not(../xhtml:div[@class='comments_not'])">
         
-        <h3 class="blog">add a comment</h3>
+        <h3 class="blog"><i18n:text>add a comment</i18n:text></h3>
         <xsl:if test="../@blog:post_trackbacks_allowed = 1">
         
-        <p> The Trackback URL to this comment is:<br/>
+        <p><i18n:text i18n:key="blockTrackbackUrl">The Trackback URL to this post is</i18n:text>:<br/>
             <xsl:value-of select="concat($webrootW,$collectionUri,'plugin=trackback(',substring-after(../@id,'entry'),').xml')"/>
             <br/>
-            Trackbacks are moderated.
+            <i18n:text i18n:key="blockTrackbackModerated">Trackbacks are moderated.</i18n:text>
         </p>
         </xsl:if>
-        <p>  This blog is <a href="http://www.gravatar.com/">gravatar</a> enabled.<br/>
-            Your email adress will never be published.<br/>
-            Comment spam will be deleted!</p>
+        <p>  <i18n:text i18n:key="blogGravatarEnabled"> This blog is <a href="http://www.gravatar.com/">gravatar</a> enabled.</i18n:text><br/>
+            <i18n:text i18n:key="blogEmailNotPublished">Your email adress will never be published.</i18n:text><br/>
+            <i18n:text i18n:key="blogCommentSpam">Comment spam will be deleted!</i18n:text></p>
+
         </xsl:if>
     </xsl:template>
 
@@ -275,6 +272,15 @@ and adjust the delicious template itself
         <script type="text/javascript" src="{$webroot}webinc/js/livesearch.js"></script>
         <xsl:text>
 </xsl:text>
+        <script type="text/javascript" src="{$webroot}webinc/js/openId.js"></script>
+        <xsl:text>
+</xsl:text>
+        <script type="text/javascript" src="{$webroot}webinc/js/prototype.lite.js"></script>
+        <xsl:text>
+</xsl:text>
+        <script type="text/javascript" src="{$webroot}webinc/js/moo.ajax.js"></script>
+        <xsl:text>
+</xsl:text>
     
     <meta name="DC.title" content="{$dctitle}"/>
         <xsl:text>
@@ -288,6 +294,26 @@ and adjust the delicious template itself
     <script type="text/javascript">
     var liveSearchRoot = '<xsl:value-of select="$webroot"/>';
     var liveSearchParams = 'root=<xsl:value-of select="$webrootW"/><xsl:value-of select="$collectionUri"/>';
+<xsl:if test="$singlePost = 'true'">
+<xsl:variable name="entry" select="/bx/plugin[@name = 'blog']/xhtml:html/xhtml:body/xhtml:div"/>
+<xsl:if test="$entry/@blog:post_comment_allowed='1'">
+
+/* cocomment elements*/
+var blogTool               = "Flux CMS";
+var blogURL                = "<xsl:value-of select="$blogroot"/>";
+var blogTitle              = "<xsl:value-of select="$dctitle"/>";
+var postURL                = "<xsl:value-of select="$blogroot"/>archive/<xsl:value-of select="$entry/@blog:post_uri"/>.html";
+var postTitle  = "<xsl:value-of select="$entry/xhtml:h2/text()"/>";
+var commentAuthorFieldName = "name";
+var commentAuthorLoggedIn  = false;
+
+var commentFormID          = "bx_foo";
+var commentTextFieldName   = "Send";
+var commentButtonName      = "bx[plugins][blog][_all]";
+
+</xsl:if>
+</xsl:if>
+    
     
     </script>
     
@@ -325,6 +351,12 @@ and adjust the delicious template itself
             <xsl:apply-templates mode="xhtml"/>
         </strong>
         <br/>
+    </xsl:template>
+    <xsl:template match="xhtml:span[@class='openid']" mode="xhtml">
+        &#160;
+        <a target="_blank" href="http://openid.net/">
+            <img src="{$webroot}{'webinc/images/openid.gif'}" alt="open_id"/>
+        </a>
     </xsl:template>
 
     <xsl:template match="xhtml:div[@class='comment' or @class='comments_not']" mode="xhtml">
@@ -384,7 +416,7 @@ and adjust the delicious template itself
     <xsl:variable name="entry" select="../.."/>
         <xsl:if test="$entry[@blog:post_comment_allowed = 1  or @blog:comment_count &gt; 0]">
                 <a href="{xhtml:a/@href}">
-                Comments (<xsl:value-of select="."/>)
+                <i18n:text i18n:key="blogComments">Comments</i18n:text> (<xsl:value-of select="."/>)
                 </a>
         </xsl:if>
     </xsl:template>

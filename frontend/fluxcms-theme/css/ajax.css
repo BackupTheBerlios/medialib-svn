@@ -1,0 +1,749 @@
+html,body {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+
+body {
+/**/
+    background-image: url(/fluxcms/themes/3-cols/images/bgNews.png);
+    background-repeat: repeat-y;
+/**/
+}
+
+dl.info {
+    padding: 0px;
+    padding-top: 20px;
+}
+
+dt.info {
+    padding: 0px;
+    padding-right: 12px;
+    margin: 0px;
+    text-align: justify;
+}
+
+dd.info {
+    clear: both;
+    float: left;
+    margin: 0px;
+    font-weight: bold;
+}
+
+.strong {
+    font-weight:bold;
+}
+
+body{
+    font-family:Geneva, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    margin:0px;
+    color:#444444;
+}
+
+#dummy{
+    z-index: 99;
+    background: none;
+    position: absolute;
+}
+
+a, a:link, a:visited {
+    color: #444444;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #444444;
+    text-decoration: underline;
+}
+
+
+a.addToPlaylist{
+    
+}
+
+
+a.play{
+    
+}
+
+a.topLink{
+
+}
+
+
+input, select{
+    font-size: 10px;
+}
+
+#container {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    width: 1026px;
+}
+
+#loginButton, #advancedSeacrh {
+    float: right;
+}
+
+#addSearchField {
+    float: left;
+}
+
+#addSearchField a.addSearchFieldLink {
+    color:#990000;
+    background-image:url("/fluxcms/themes/3-cols/images/addRed.png");
+    background-repeat: no-repeat;
+    padding-left: 15px;
+}
+
+a.advancedSearchLink {
+    background-image:url("/fluxcms/themes/3-cols/images/playWhite.png");
+    background-repeat: no-repeat;
+    padding-left: 15px;
+}
+
+input.search {
+    border:1px solid #444444;
+    margin-right: 3px;
+    width: 101px;
+}
+
+input.button {
+    font-weight: bold;
+    border:1px solid #666666;
+    background-color: #666666;
+    color: #FFFFFF;
+    margin-left: 3px;
+    width: 68px;
+
+}
+
+#topnavi li {
+    margin: 0px;
+    list-style:none;
+}
+
+.fullAndFloat {
+    margin: 0px;
+    padding: 0px;
+    float:left;
+    height:100%;
+}
+
+.fullDiv{
+    margin: 0px;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height:100%;
+}
+/*
+.spaceBefore {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-color:#FFFFFF;
+    float:left;
+    width: 7px;
+}
+.spaceAfter{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-color:#FFFFFF;
+    float:left;
+    width:6px;
+}
+*/
+.spacer {   
+    height: 100%;
+    float:left;
+    width:1px;
+    border-right: 1px solid #444444;
+}
+
+#topnavi a, #topnavi a:hover, #topnavi a:link, #topnavi a:visited {
+    color:#FFFFFF;
+}
+#topnavi{
+    background-color:#E31D10;
+    color:#FFFFFF;
+    background-repeat:no-repeat;
+    background-image:url("/fluxcms/themes/3-cols/images/logo.jpg");
+   /* padding-top: 240px;*/
+}
+
+#topnavi, #newsImages {
+    margin: 0px;
+    height: 100%;
+    width: 164px;
+    float: left;
+    border-left: 7px solid white;
+    border-right: 6px solid white;  
+}
+
+#newsImages .img {
+    width: 144px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+#informationImages {
+    text-align: center;
+    height: 100%;
+    width: 185px;
+    float: left;
+}
+
+#mainnavi {
+    margin-top: 240px;
+}
+#mainnavi li{
+    margin-left: -40px;
+}
+
+#newsImages, #informationImages, #information{
+    background-color:#E0E0E0;
+}
+
+#informationView{
+    z-index: 0;
+    display:none;
+}
+
+#informationView a.playMovieLink, #informationView a.addToPlaylistLink, #informationView a.informationPathLink{
+    color:#990000;
+    background-repeat: no-repeat;
+    padding-left: 15px;
+}
+
+#informationView a.playMovieLink{
+    background-image:url("/fluxcms/themes/3-cols/images/playRed.png");
+}
+
+#informationView a.addToPlaylistLink{
+    background-image:url("/fluxcms/themes/3-cols/images/addRed.png");
+}
+
+#informationView a.informationPathLink{
+    padding: 0px;
+}
+
+#information {
+    width: 370px;
+}
+
+#informationBrowse{
+    background-color:#909090;
+}
+
+#informationFiles{
+    background-color:#404040;
+    }
+
+#informationFiles, #informationBrowse{
+    font-weight: bold;   
+    width: 175px;
+    height: 45px;
+    float: left;
+    padding-left: 10px;
+}
+
+#informationFiles a, #informationBrowse a{
+    color: #FFFFFF;     
+}
+
+#informationBrowseContainer {
+    width: 187px;
+    position: absolute;
+    top: 55px;
+    left: 384px;
+    background: url("/fluxcms/themes/3-cols/images/browseBg.png");
+    background-repeat: repeat-y;
+    color: #FFFFFF;
+}
+
+#informationFilesContainer {
+    width: 187px;
+    position: absolute;
+    top: 55px;
+    left: 569px;
+    background: url("/fluxcms/themes/3-cols/images/filesBg.png");
+    background-repeat: repeat-y;
+    color: #FFFFFF;
+}
+
+#informationPicture {
+    clear: both;
+    padding-top: 10px;
+    padding-right: 12px;
+}
+
+#informationPlay {
+    float:left;
+}
+
+#informationPath {
+    float: right;
+    padding-right: 12px;
+}
+
+
+#informationPlaylist {
+    cursor: move;
+    clear: both;
+}
+
+#advancedSearchView {
+    border-right: 1px solid #444444;
+    display: none;
+    width: 554px;
+}
+
+#advancedSearchBrowser {
+    width: 544px;
+    background-color:#404040;
+    line-height: 110%;
+    font-weight: bold;   
+    padding-left: 10px;
+}
+
+#advancedSearchBrowser .redlink {
+    color: #FF0000;
+    padding-right: 5px;
+}
+
+#advancedSearchBrowser .whitelink {
+    color: #FFFFFF;
+    padding-right: 5px;
+}
+
+#advancedSearchData {
+    width: 100%;
+}
+
+#advancedSearchData .odd{
+    background-color: #E0E0E0;
+}
+
+#advancedSearchData .even {
+    background-color: #909090;
+}
+
+#advancedSearchData .even, #advancedSearchData .odd {
+    margin: 0px;
+    padding: 10px;
+    clear: both;
+    height: 45px;
+}
+
+.advancedThumbs {
+    padding: 0px;
+    padding-right: 10px;
+    float: left;
+    height: 45px;
+}
+
+.advancedTitle {
+    font-weight: bold;
+}
+
+#advancedSearchData a.playMovieLink, #advancedSearchData a.addToPlaylistLink {
+    color:#990000;
+    background-repeat: no-repeat;
+    padding-left: 15px;
+    padding-right: 25px;
+}
+
+#advancedSearchData a.addToPlaylistLink{
+    background-image:url("/fluxcms/themes/3-cols/images/addRed.png");
+}
+
+#advancedSearchData a.playMovieLink{
+    background-image:url("/fluxcms/themes/3-cols/images/playRed.png");
+}
+
+#playlistView {
+    display: none;
+    background-color: #FFFFFF;
+}
+
+#playlistNew a {
+    background-image:url("/fluxcms/themes/3-cols/images/plusDrakgrey.png");
+    background-repeat: no-repeat;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 15px;
+    padding-top: 1px;
+}
+
+#newPlaylistInput {
+    border:1px solid #444444;
+    margin-right: 3px;
+    width: 101px;
+}
+
+#newPlaylistButton {
+    font-weight: bold;
+    border:1px solid #666666;
+    background-color: #666666;
+    color: #FFFFFF;
+    margin-left: 3px;
+    width: 48px;
+
+}
+
+#playlistNew {
+    margin: 0px;
+    margin-top: 10px;
+    margin-left: 5px;
+    padding: 0px;
+    padding-bottom: 10px;
+}
+
+#playlist {
+    width: 174px;
+}
+
+#playlistData{  
+    padding-left: 5px;
+    padding-top: 20px;
+}
+
+div.connectors{
+    height: 22px;
+    width: 21px;
+    float: left;
+    margin-left: 20px;
+    overflow: hidden;
+}
+
+#playlist div.connectors{
+        background-image: url(/fluxcms/themes/3-cols/images/treeimgs/dark/connector.png);
+}
+
+#browseTree div.connectors{
+        background-image: url(/fluxcms/themes/3-cols/images/treeimgs/bright/connector.png);
+
+}
+
+div.buttons{
+    visibility: hidden;
+    margin-top: 0px;
+    left: 0px;
+    float: left;
+}
+
+
+#playlist hr, #browseTree hr{
+    margin: 0px;
+    height: 1px;
+    visibility: hidden;
+}
+
+#playlist ul > li > hr{
+    margin: 3px;
+}
+
+
+
+
+span.handle{
+    padding-left: 10px; 
+}
+
+span.handle, span.opener{
+    padding-left: 10px;
+    
+}
+img.nodeicon{
+    cursor: pointer;
+
+}
+
+
+
+#playlist img.button{
+    padding: 3px;
+    cursor: pointer;
+}
+
+
+
+#playlist li, #playlist ul , #browseTree li, #browseTree ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#browseTreeDiv{
+    border-top: 1px solid #E0E0E0;
+    padding: 10px; 
+}
+
+#browseTree li{ 
+    width: 1000px;
+    margin-top: 5px;
+}
+
+#browseTree{
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    width: 160px;
+}
+
+#fileTreeDiv{
+    border-top: 1px solid #E0E0E0;
+    padding: 10px; 
+}
+
+#fileTree {
+    width: 160px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+#fileTree a {color: #FFFFFF;}
+
+#playlist li, #browseTree li{
+    clear: both;
+    margin-bottom: 5px;
+}
+
+#playlistData{
+    margin-top: -10px;
+}
+
+#playlistBrowser {
+    background-color:#96B802;
+    padding-left: 10px;
+}
+
+.browser {
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-top: 10px;
+    width: 100%;
+    height: 45px;
+}
+
+.serachBrowser {
+    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+}
+
+#collectionsSearch, #newsSearch, #titleSearch {
+    overflow: hidden;
+    height: 100%;
+    width: 179px;
+    border-left: 3px solid #FFFFFF;
+    border-right: 3px solid #FFFFFF;
+    float: left;
+}
+
+#titleSearch a, #collectionsSearch a, #newsSearch a {
+    text-decoration: none;
+}
+
+#titleSearch a.mouseOn, #collectionsSearch a.mouseOn, #newsSearch a.mouseOn {
+    color: #FFFFFF;
+}
+
+#collectionsSearch a.mouseOff {
+    color: #777E84;
+}
+
+#titleSearch a.mouseOff, #newsSearch a.mouseOff {
+    color: #444444;
+}
+
+#collectionsSearch dl {
+    margin-top: 0px;
+    width: 1000px;
+}
+
+#newsSearch ul, #titleSearch ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#newsSearch li, #titleSearch li {
+    margin: 0px;
+    padding: 0px;
+    margin-left: 3px;
+    padding-left: 2px;
+    width: 1000px;
+}
+
+#collectionsSearch dd {
+    padding: 0px;
+    padding-left: 20px;
+    margin-left: 0px;
+    margin-top: 0px;
+    
+}
+
+#collectionsSearch dd a{
+    color: #777E84;
+}
+
+
+#collectionsSearch dt{
+    margin: 0px;
+    padding: 0px;
+    margin-left: 3px;
+    padding-left: 2px;
+}
+
+#collectionsSearch dt.withSeparation {
+    padding-top: 5px;
+    margin-top: 5px;
+    border-top-style: dotted;
+    border-top-color: #777E84;
+    border-top-width: 1px;
+}
+
+#content{
+    height:100%;
+    float: left;
+    border-left: 7px solid white;
+    border-right: 6px solid white;  
+}
+
+#overallSearch, #login{
+    margin: 0px;
+    padding: 0px;
+    margin-top: 20px;
+}
+
+#overallSearch input {
+    padding: 0px;
+    margin: 0px;
+    margin-top: 5px;
+    border-width: 2px;
+    /*border: 1px white solid;*/
+    width: 160px;
+}
+
+#login select {
+    float: right;
+    vertical-align: middle;
+    /*border: 1px white solid;*/
+    border-width: 2px;
+    width: 100px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#login input {
+    float: right;
+    vertical-align: middle;
+    /*border: 1px white solid;*/
+    border-width: 2px;
+    width: 96px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.wrapInput {
+    padding: 0px;
+    padding-top: 5px;
+    clear: both;
+}
+
+#login a {
+    clear: both;
+}
+
+#login span {
+    padding: 0px;
+    vertical-align: middle;
+    float: left;
+}
+
+#content{
+}
+
+
+.envelop{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    overflow: hidden;
+}
+
+#content h1{
+    margin-top: 0px;
+}
+
+h1 {
+    margin-top:0px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight:bold;
+}
+h2, h3, h4, h5{
+    font-size: 11px;
+    font-weight:bold;
+    margin:0px;
+    margin-bottom: 3px;
+}
+
+p {
+    font-size: 11px;
+    margin-bottom:10px;
+    padding-bottom:10px;
+/*    border-bottom: 1px dotted #444444;*/
+}
+
+.loading {
+    text-decoration: blink; 
+}   
+#addItemContainer {
+    z-index: 100;
+}
+
+#addItemContainer li {
+    z-index: 100;
+}
+#selector {
+    overflow: hidden;
+    width: 120px;
+    position: absolute;
+    margin: 0px;
+    padding: 5px;
+    background: #E0E0E0;
+    border:2px solid #444444;
+}
+
+#selector ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#selector li {
+    padding-left: 10px;
+    margin: 0px;
+}
+
+#selector a{
+    text-decoration: none;
+}
+
+#selector a.mouseOff {
+}
+
+#selector a.mouseOn {
+    background: red;
+    color: #FFFFFF;
+}
+
