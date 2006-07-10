@@ -10,7 +10,7 @@ Behavior.register(
               }
           }
           element.onmouseout = function(){
-              element.style.backgroundColor = '#FFFFFF';
+              element.style.backgroundColor = '';
               for (var e in element.childNodes) {
                   if (element.childNodes[e].tagName == 'A') element.childNodes[e].className = 'mouseOff';
               }

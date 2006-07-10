@@ -135,6 +135,70 @@ function auth(type){
     }
 }
 
+function add(mode, data){
+    switch (mode){
+        case 'searchField':
+            if (! $('selector')){
+                var div = document.createElement('div');
+                var attribute = document.createAttribute('id');
+                attribute.nodeValue = 'selector'; 
+                div.setAttributeNode(attribute);
+                div.style.display= "none";
+                div.style.top = mouseY(data) + 'px';
+                div.style.left = mouseX(data) + 'px';
+                var types = new Array();
+                types.push(new Array('creation_date', '<i18n:text>creation date</i18n:text>'));
+                types.push(new Array('title', '<i18n:text>title</i18n:text>'));
+                types.push(new Array('collection', '<i18n:text>collection</i18n:text>'));
+                types.push(new Array('production_date', '<i18n:text>production date</i18n:text>'));
+                types.push(new Array('language', '<i18n:text>language</i18n:text>'));
+                types.push(new Array('country', '<i18n:text>country</i18n:text>'));
+                types.push(new Array('actor', '<i18n:text>actor</i18n:text>'));
+                types.push(new Array('director', '<i18n:text>director</i18n:text>')); 
+                types.push(new Array('author', '<i18n:text>author</i18n:text>'));
+                types.push(new Array('publisher', '<i18n:text>publisher</i18n:text>'));
+                types.push(new Array('keywords ', '<i18n:text>keywords</i18n:text>'));
+                var htmlList = '<i18n:text>chosse a field type:</i18n:text>';
+                htmlList += '<ul>';
+                types.each(function(value, index){
+                            htmlList += '<li class="redWithA">';
+                            htmlList += '<a onclick="add(\'generateSearchField\', \''+value[0]+'\'); return false;" href="">'+value[1]+'</a>';
+                            htmlList += '</li>';
+                        }
+                        );
+                htmlList += '</ul>';
+                div.innerHTML = htmlList;
+                $('body').appendChild(div);
+                Behavior.apply();
+            }
+            new Effect.Appear('selector');
+            break;
+        case 'generateSearchField':
+            var type = document.createElement('span');
+            var type_id = "type_" + Math.random();
+            var attribute = document.createAttribute('id');
+            attribute.nodeValue = type_id; 
+            type.setAttributeNode(attribute);
+            type.style.display = 'none';
+            type.innerHTML = data;
+            var newField = document.createElement('input');
+            attribute = document.createAttribute('onkeypress');
+            attribute.nodeValue = "trapEnter(event, 'overallSearchField');";
+            newField.setAttributeNode(attribute);
+            var id = 'overallSearchField ' + Math.random();
+            var attribute = document.createAttribute('id');
+            attribute.nodeValue = id; 
+            newField.setAttributeNode(attribute);
+            newField.style.display= "none";
+            $('overallSearch').insertBefore(type, $('addSearchField'));
+            $('overallSearch').insertBefore(newField, $('addSearchField'));
+            new Effect.Fade('selector');
+            new Effect.Appear(id);
+            new Effect.Appear(type_id);
+            return false;
+    }
+}
+
 function addToPlaylist(e, id, title)
 {
     id = createNewPlaylistItem(id, title);
@@ -366,4 +430,24 @@ Sortable.create($(ul), {dropOnEmpty:true, handle:'handle', containment:allUlIds,
 makeSortable(newPlaylistItem, tree);
 Behavior.apply();
 return id.nodeValue;
+}
+function mouseX(evt) {
+    if (evt.pageX) 
+        return evt.pageX;
+    else if (evt.clientX)
+        return evt.clientX + (document.documentElement.scrollLeft ?
+        document.documentElement.scrollLeft :
+        document.body.scrollLeft);
+    else 
+        return null;
+}
+function mouseY(evt) {
+    if (evt.pageY) 
+        return evt.pageY;
+    else if (evt.clientY)
+        return evt.clientY + (document.documentElement.scrollTop ?
+        document.documentElement.scrollTop :
+        document.body.scrollTop);
+    else 
+        return null;
 }
