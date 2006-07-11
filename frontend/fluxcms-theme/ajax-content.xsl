@@ -58,6 +58,7 @@
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/videolib-frontend.js"/>
 				<script src="/hgkmedialib-frontend/js/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
 				<script src="/hgkmedialib-frontend/js/scriptaculous/src/unittest.js" type="text/javascript"></script>
+			    <script type="text/javascript" src="/hgkmedialib-frontend/js/autocompleter.js"/>
                 <link rel="shortcut icon" href="{$webroot}favicon.ico" type="image/x-icon"/>
                 <xsl:call-template name="html_head"/>
             </head>
@@ -77,7 +78,7 @@
                                 <i18n:text>title</i18n:text>
                             </span>
                             <br />
-                            <input type="text" id="overallSearchField" onkeypress="trapEnter(event, 'overallSearchField');"/>
+                            <input type="text" id="overallSearchField" searchType="title" onkeypress="trapEnter(event, 'overallSearchField');"/>
                             <br />
                             <div id="addSearchField">
                                 <a href="" class="addSearchFieldLink" onclick="add('searchField', event); return false;">
@@ -91,6 +92,7 @@
                                     </a>
                                 </span>
                             </div>
+                            <div id='autocompleter' class="auto_complete" style='display:none'></div>
                         </div>
                         
                         <div id="login">

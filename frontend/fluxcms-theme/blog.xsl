@@ -151,22 +151,22 @@ and adjust the delicious template itself
 
     <xsl:template match="xhtml:div[@class = 'comments']" mode="xhtml">
         <div id="googleAd"/>
-        <h3 class="blog"><i18n:text i18n:key="blogComments">Comments</i18n:text></h3>
+        <xsl:if test="(../xhtml:div[@class='comments'] != '')"> <h3 class="blog listcomments">Comments:</h3></xsl:if>
         <xsl:apply-templates mode="xhtml"/>
         <xsl:if test="not(../xhtml:div[@class='comments_not'])">
         
-        <h3 class="blog"><i18n:text>add a comment</i18n:text></h3>
+        <h3 class="blog addcomment">Add a comment:</h3>
         <xsl:if test="../@blog:post_trackbacks_allowed = 1">
         
-        <p><i18n:text i18n:key="blockTrackbackUrl">The Trackback URL to this post is</i18n:text>:<br/>
+        <p>The Trackback URL to this post is:<br/>
             <xsl:value-of select="concat($webrootW,$collectionUri,'plugin=trackback(',substring-after(../@id,'entry'),').xml')"/>
             <br/>
-            <i18n:text i18n:key="blockTrackbackModerated">Trackbacks are moderated.</i18n:text>
+            Trackbacks are moderated.
         </p>
         </xsl:if>
-        <p>  <i18n:text i18n:key="blogGravatarEnabled"> This blog is <a href="http://www.gravatar.com/">gravatar</a> enabled.</i18n:text><br/>
-            <i18n:text i18n:key="blogEmailNotPublished">Your email adress will never be published.</i18n:text><br/>
-            <i18n:text i18n:key="blogCommentSpam">Comment spam will be deleted!</i18n:text></p>
+        <p>   This blog is <a href="http://www.gravatar.com/">gravatar</a> enabled.<br/>
+            Your email adress will never be published.<br/>
+            Comment spam will be deleted!</p>
 
         </xsl:if>
     </xsl:template>
@@ -416,7 +416,7 @@ var commentButtonName      = "bx[plugins][blog][_all]";
     <xsl:variable name="entry" select="../.."/>
         <xsl:if test="$entry[@blog:post_comment_allowed = 1  or @blog:comment_count &gt; 0]">
                 <a href="{xhtml:a/@href}">
-                <i18n:text i18n:key="blogComments">Comments</i18n:text> (<xsl:value-of select="."/>)
+                Comments (<xsl:value-of select="."/>)
                 </a>
         </xsl:if>
     </xsl:template>
