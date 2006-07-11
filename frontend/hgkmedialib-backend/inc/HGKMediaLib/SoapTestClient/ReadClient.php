@@ -46,7 +46,7 @@ try {
     echo "we call the getSuggestions():\n";
     echo "*****************************\n\n";
     
-    $result =  $client->getSuggestions($session, "actor");
+    $result =  $client->getSuggestions($session, "country");
     var_export($result);
    
     echo "\n\n";
@@ -60,7 +60,7 @@ try {
     echo "we call getInformation():\n";
     echo "*************************\n\n";
     
-   $result =  $client->getInformation($session, 'nebis_5225', 'de');
+   $result =  $client->getInformation($session, '171061', 'de');
     var_export($result);
 } catch (Exception $e) {
     //  var_export($client->__getLastResponse());
