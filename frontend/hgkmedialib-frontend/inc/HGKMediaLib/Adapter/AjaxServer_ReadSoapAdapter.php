@@ -210,18 +210,19 @@ $j = 0;
 
     public function search($search, $page = 1)
     {
-        $clause = array(
-            array(
-                'connector' => '',
-                'subject' => 'Title',
+        $clause = array();
+        foreach($search as $value){
+        array_push($clause, array(
+                'connector' => 'AND',
+                'subject' => $value[0],
                 'predicate' => '~',
-                'object' => $search
-            )
-        );
+                'object' => $value[1]
+            ));
+        }
         $order = array(
-            'Title' => 'asc'
+            'title' => 'asc'
         );
-        $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 0, 'de');
+        $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 100, 'de');
 
         $array = array();
         $array['result'] = array();

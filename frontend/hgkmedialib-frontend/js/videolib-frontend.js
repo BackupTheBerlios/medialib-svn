@@ -90,7 +90,13 @@ function search(mode) {
         break;
 
         case 'overallSearchField':
-            remoteReader.search(val, 1);
+            var inputs = $A($('overallSearch').getElementsByTagName("input"));
+            var searchArray = new Array();
+            inputs.each(function(input, index){
+                        if (input.value != "")
+                            searchArray.push(new Array(input.getAttribute('searchType'), input.value));
+                    });
+            remoteReader.search(searchArray, 1);
         break;
     }        
 }
@@ -180,7 +186,7 @@ function add(mode, data){
             attribute.nodeValue = type_id; 
             type.setAttributeNode(attribute);
             type.style.display = 'none';
-            type.innerHTML = data;
+            type.innerHTML = '<i18n:text>' + data + '</i18n:text>';
             var newField = document.createElement('input');
             attribute = document.createAttribute('onkeypress');
             attribute.nodeValue = "trapEnter(event, 'overallSearchField');";
@@ -189,12 +195,21 @@ function add(mode, data){
             var attribute = document.createAttribute('id');
             attribute.nodeValue = id; 
             newField.setAttributeNode(attribute);
+            attribute = document.createAttribute('searchType');
+            attribute.nodeValue = data; 
+            newField.setAttributeNode(attribute);
             newField.style.display= "none";
             $('overallSearch').insertBefore(type, $('addSearchField'));
             $('overallSearch').insertBefore(newField, $('addSearchField'));
+            if (data.indexOf("_date") != -1) {
+                new Autocompleter.Date(id, 'autocompleter', {});
+            }else{
+                new Autocompleter.PearAjax(id, 'autocompleter','remoteReader.getSuggestions', data, {});
+            }
             new Effect.Fade('selector');
             new Effect.Appear(id);
             new Effect.Appear(type_id);
+            setTimeout('$("'+id+'").focus();', 1250);
             return false;
     }
 }
@@ -254,6 +269,7 @@ function init (){
     if(dhtmlHistory.isFirstLoad()){
         handleHistoryChange(dhtmlHistory.getCurrentLocation(), null);
     }
+     new Autocompleter.PearAjax('overallSearchField', 'autocompleter','remoteReader.getSuggestions', 'title', {});
 }
 
 function handleHistoryChange(newLocation, historyData) {
@@ -302,7 +318,8 @@ function trapEnter(evt, type) {
     else
         keycode = 0;
     if (keycode == 13) {
-        if (type == 'news' || type == 'collections' || type == 'title' || type == 'overallSearchField') search(type);    
+        if (type == 'news' || type == 'collections' || type == 'title') search(type);    
+        if (type.indexOf('overallSearchField') != -1 && !Element.visible('autocompleter')) search(type);    
         switch(type) {
             case 'login': auth('in'); break;
             case 'login_pw': auth('in'); break;
