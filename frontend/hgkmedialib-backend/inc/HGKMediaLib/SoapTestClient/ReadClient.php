@@ -46,7 +46,7 @@ try {
     echo "we call the getSuggestions():\n";
     echo "*****************************\n\n";
     
-    $result =  $client->getSuggestions($session, "country");
+    $result =  $client->getSuggestions($session, "title");
     var_export($result);
    
     echo "\n\n";
