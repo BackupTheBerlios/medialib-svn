@@ -209,7 +209,6 @@ input.button {
 }
 
 #informationView{
-    z-index: 0;
     display:none;
 }
 
@@ -548,7 +547,6 @@ img.nodeicon{
     border-right: 3px solid #FFFFFF;
     float: left;
 }
-
 #titleSearch a, #collectionsSearch a, #newsSearch a {
     text-decoration: none;
 }

@@ -269,7 +269,7 @@ and adjust the delicious template itself
         <link rel="EditURI" type="application/rsd+xml" title="RSD" href="{$blogroot}xmlrpc.rsd"/>
         <xsl:text>
 </xsl:text>
-        <script type="text/javascript" src="{$webroot}webinc/js/livesearch.js"></script>
+        <script type="text/javascript" src="{$webroot}webinc/js/styles.js"></script>
         <xsl:text>
 </xsl:text>
         <script type="text/javascript" src="{$webroot}webinc/js/openId.js"></script>
@@ -426,7 +426,9 @@ var commentButtonName      = "bx[plugins][blog][_all]";
 
 
     <xsl:template name="body_attributes">
-        <xsl:attribute name="onload">liveSearchInit();</xsl:attribute>
+        <!--<xsl:attribute name="onload">liveSearchInit();</xsl:attribute>-->
+		
+		<xsl:attribute name="onload">setEntryBorders();</xsl:attribute>
 
     </xsl:template>
 </xsl:stylesheet>

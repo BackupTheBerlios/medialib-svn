@@ -110,10 +110,11 @@ a:hover {
 
 .envelop1{
     margin: 0px;
-	margin-left:60px;
     padding: 0px;
     padding-top: 55px;
+	padding-left:60px;
     overflow: hidden;
+
 }
 
 .post_links{
@@ -147,33 +148,11 @@ a:hover {
 }
 
 
-.entry[name="color1"]{
+.entry{
 	border-style:solid;
 	border-width:5px 1px 1px 1px;
 	border-color:#909090;
-	border-top-color:#96B802;
-	margin:0px;
-	margin-bottom:30px;
-	padding:20px 30px 20px 30px;
-	width:75%;
-}
-
-.entry[name="color2"]{
-	border-style:solid;
-	border-width:5px 1px 1px 1px;
-	border-color:#909090;
-	border-top-color:#404040;
-	margin:0px;
-	margin-bottom:30px;
-	padding:20px 30px 20px 30px;
-	width:75%;
-}
-
-.entry[name="color3"]{
-	border-style:solid;
-	border-width:5px 1px 1px 1px;
-	border-color:#909090;
-	border-top-color:#909090;
+	border-top-color:#FFFFFF;
 	margin:0px;
 	margin-bottom:30px;
 	padding:20px 30px 20px 30px;

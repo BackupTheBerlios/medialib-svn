@@ -43,29 +43,29 @@
                 </title>
                 <!-- Load the Really Simple History framework -->
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/really_simple_history/dhtmlHistory.js"/>
-				<script src="/hgkmedialib-frontend/js/scriptaculous/lib/prototype.js" type="text/javascript"></script>
+                <script src="/hgkmedialib-frontend/js/scriptaculous/lib/prototype.js" type="text/javascript"></script>
                 <script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Read"/>  
-				<script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Playlist"/>                
-				<script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Auth"/>                
+                <script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Playlist"/>                
+                <script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=all&amp;stub=HGKMediaLib_AjaxServer_Auth"/>                
                 <script type="text/javascript" src="/hgkmedialib-frontend/ajax-server.php?client=behavior"/>       
-				<script type="text/javascript" src="/hgkmedialib-frontend/js/dragDropTree.js"/>         
-                <script type="text/javascript" src="/hgkmedialib-frontend/js/behavior.js"/>
+                <script type="text/javascript" src="/hgkmedialib-frontend/js/dragDropTree.js"/>         
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/html.js"/>
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/read.js"/>
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/auth.js"/>
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/safari.js"/>
-			    <script type="text/javascript" src="/hgkmedialib-frontend/js/playlist.js"/>
+                <script type="text/javascript" src="/hgkmedialib-frontend/js/playlist.js"/>
                 <script type="text/javascript" src="/hgkmedialib-frontend/js/videolib-frontend.js"/>
-				<script src="/hgkmedialib-frontend/js/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
-				<script src="/hgkmedialib-frontend/js/scriptaculous/src/unittest.js" type="text/javascript"></script>
-			    <script type="text/javascript" src="/hgkmedialib-frontend/js/autocompleter.js"/>
+                <script src="/hgkmedialib-frontend/js/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+                <script src="/hgkmedialib-frontend/js/scriptaculous/src/unittest.js" type="text/javascript"></script>
+                <script type="text/javascript" src="/hgkmedialib-frontend/js/autocompleter.js"/><!---->
+                <script type="text/javascript" src="/hgkmedialib-frontend/js/behavior.js"/>
                 <link rel="shortcut icon" href="{$webroot}favicon.ico" type="image/x-icon"/>
                 <xsl:call-template name="html_head"/>
             </head>
-            <body onload="init();" id="body">
+            <body id="body">
                 <xsl:call-template name="body_attributes"/>
-				<div id="dummy" class="dummy"></div>
-				<!--<div id="HTML_AJAX_LOADING"/>-->
+                <div id="dummy" class="dummy"></div>
+                <!--<div id="HTML_AJAX_LOADING"/>-->
                 <div id="container">
                     <div id="topnavi" class="fullDiv">
                         <div class="envelop">
@@ -139,9 +139,9 @@
                         <div id="informationImages" class="fullAndFloat"/>
                         <div id="information" class="fullAndFloat">
                             <div id="informationBrowse" class="envelop"/>
-							<div id="informationBrowseContainer"/>
+                            <div id="informationBrowseContainer"/>
                             <div id="informationFiles" class="envelop"/>
-							<div id="informationFilesContainer"/>
+                            <div id="informationFilesContainer"/>
                             <div id="informationPicture" class="envelop"/>
                             <div id="informationPlay"/>
                             <div id="informationPath"/>
@@ -157,7 +157,7 @@
                             </div>
                             <div id="playlistNew"><a href="#" onclick="playlist('new', '', '', ''); return false;">New Playlist</a></div>
                             <div id="playlistData" class="envelop"/>
-                            <ul id="addItemContainer" />
+                            <ul id="addItemContainer"><li></li></ul>
                         </div>
                     </div>
                     <!--
