@@ -92,17 +92,22 @@ function search(mode) {
         case 'overallSearchField':
             var inputs = $A($('overallSearch').getElementsByTagName("input"));
             var searchArray = new Array();
+            var historyString = "";
             inputs.each(function(input, index){
-                        if (input.value != "")
-                            searchArray.push(new Array(input.getAttribute('searchType'), input.value));
+                        if (input.value != ""){
+                            var searchType = input.getAttribute('searchType');
+                            historyString += "::" + searchType + "::" + input.value;
+                            searchArray.push(new Array(searchType, input.value));
+                            }
                     });
+            dhtmlHistory.add("search=1" + historyString, null);
             remoteReader.search(searchArray, 1);
         break;
     }        
 }
 
-function page(page, string){
-    remoteReader.search(string, page);
+function page(page, array){
+    remoteReader.search(array, page);
 }
 
 function playlist(mode, id01, id02, data){
@@ -161,14 +166,16 @@ function add(mode, data){
                 types.push(new Array('country', '<i18n:text>country</i18n:text>'));
                 types.push(new Array('actor', '<i18n:text>actor</i18n:text>'));
                 types.push(new Array('director', '<i18n:text>director</i18n:text>')); 
-                types.push(new Array('author', '<i18n:text>author</i18n:text>'));
+               // types.push(new Array('author', '<i18n:text>author</i18n:text>'));
                 types.push(new Array('publisher', '<i18n:text>publisher</i18n:text>'));
-                types.push(new Array('keywords ', '<i18n:text>keywords</i18n:text>'));
-                var htmlList = '<i18n:text>chosse a field type:</i18n:text>';
+                types.push(new Array('keywords', '<i18n:text>keywords</i18n:text>'));
+//TODO i18n                var htmlList = '<i18n:text>choose a field type:</i18n:text>';
+                var htmlList = '<span>choose a field type:</span>';
                 htmlList += '<ul>';
                 types.each(function(value, index){
                             htmlList += '<li class="redWithA">';
-                            htmlList += '<a onclick="add(\'generateSearchField\', \''+value[0]+'\'); return false;" href="">'+value[1]+'</a>';
+// TODO  i18n [0]                          htmlList += '<a onclick="add(\'generateSearchField\', \''+value[0]+'\'); return false;" href="">'+value[1]+'</a>';
+                            htmlList += '<a onclick="add(\'generateSearchField\', \''+value[0]+'\'); return false;" href="">'+value[0]+'</a>';
                             htmlList += '</li>';
                         }
                         );
@@ -253,29 +260,43 @@ function addToPlaylist(e, id, title)
 
 }
 
-function init (){
+function init(){
 	// get('playlists', null);	
    // remoteReader.getByTitle();
    // remoteReader.getByCollection();
    // remoteReader.getByDate();
+//    alert(-1);
     remoteAuth.getUserData();
     initSafari();
     // initialize the DHTML History
     // framework
+//    alert(0);
     dhtmlHistory.initialize();
+//    alert(1);
     // subscribe to DHTML history change
     // events
     dhtmlHistory.addListener(handleHistoryChange);
+//    alert(2);
     if(dhtmlHistory.isFirstLoad()){
+//    alert(3);
         handleHistoryChange(dhtmlHistory.getCurrentLocation(), null);
     }
-     new Autocompleter.PearAjax('overallSearchField', 'autocompleter','remoteReader.getSuggestions', 'title', {});
+    new Autocompleter.PearAjax('overallSearchField', 'autocompleter','remoteReader.getSuggestions', 'title', {});
 }
 
 function handleHistoryChange(newLocation, historyData) {
     if (newLocation.indexOf('detail=') == 0) {
         newLocation = newLocation.substr(7);
         get('information', newLocation);
+    }
+    else if (newLocation.indexOf('search=') == 0) {
+        var searchAttributes = newLocation.substr(7).split("::");
+        var searchArray = new Array();
+        for (var i = 0; i<(searchAttributes.length - 1)/2; i++){
+            searchArray.push(new Array(searchAttributes[(2*i)+1], searchAttributes[2*(i+1)]));
+        }
+        page(searchAttributes[0], searchArray);
+
     } else if (newLocation.split("&").length > 1){
         newLocation.split("&").each(function(value, index){
                 var type =  value.split('=')[0];

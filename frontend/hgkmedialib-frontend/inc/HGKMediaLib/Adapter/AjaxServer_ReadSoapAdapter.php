@@ -212,17 +212,32 @@ $j = 0;
     {
         $clause = array();
         foreach($search as $value){
-        array_push($clause, array(
-                'connector' => 'AND',
-                'subject' => $value[0],
-                'predicate' => '~',
-                'object' => $value[1]
-            ));
+            if($value[0] == 'keywords'){
+                array_push($clause, array(
+                        'connector' => 'AND',
+                        'subject' => $value[0],
+                        'predicate' => '=',
+                        'object' => $value[1]
+                    ));
+            }else{
+                array_push($clause, array(
+                        'connector' => 'AND',
+                        'subject' => $value[0],
+                        'predicate' => '~',
+                        'object' => $value[1]
+                    ));
+            }
         }
         $order = array(
             'title' => 'asc'
         );
-        $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 100, 'de');
+        try {
+            $result = $this->_soapClient->find($this->_getSoapSession(), $clause, $order, 1000, 'de');
+        } catch (Exception $e) {
+            return $e;
+            $result = array();
+        }
+
 
         $array = array();
         $array['result'] = array();
@@ -232,12 +247,15 @@ $j = 0;
         $array['paging']['page']   = ($page > $array['paging']['pages']) ? $array['paging']['pages'] : $page;
         $array['paging']['search'] = $search;
 
-        $lowerbound = ($array['paging']['page'] - 1) * 10;
-        $upperbound = ($array['paging']['pages'] == $array['paging']['page']) ? count($result) : $array['paging']['page'] * 10;
+        if (count($result) != 0){
 
-        for ($i = $lowerbound; $i < $upperbound; $i++){
-            if (is_null($result[$i]->coverMedia)) $result[$i]->coverMedia = "http://media1.hgkz.ch/tmp/pictures/1.jpg";
-            $array['result'][] = array("coverMedia" => $result[$i]->coverMedia, "description" => $result[$i]->description, "title" => $result[$i]->title, "id" => $result[$i]->id);
+            $lowerbound = ($array['paging']['page'] - 1) * 10;
+            $upperbound = ($array['paging']['pages'] == $array['paging']['page']) ? count($result) : $array['paging']['page'] * 10;
+
+            for ($i = $lowerbound; $i < $upperbound; $i++){
+                if (is_null($result[$i]->coverMedia)) $result[$i]->coverMedia = "http://media1.hgkz.ch/tmp/pictures/1.jpg";
+                $array['result'][] = array("coverMedia" => $result[$i]->coverMedia, "description" => $result[$i]->description, "title" => $result[$i]->title, "id" => $result[$i]->id);
+            }
         }
         return $array;
     }

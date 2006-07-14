@@ -71,23 +71,25 @@ interface HGKMediaLib_AdminReadWriteInterface
      * @param string $lang
      *
      * @access public
-     * @return object HGKMediaLib_Struct_WorkTree
+     * @return object HGKMediaLib_Struct_EntityObject
      */
     public function getInformation($sessionId,$id,$lang='de');
 
     /**
-     * The setInformation() method sends a HGKMediaLib_Struct_AdminEntity object
+     * The setInformation() method sends a HGKMediaLib_Struct_EntitiyObject
      * to the backend
      * 
      * @param string $sessionId 
      * @param integer id data base entity id of work, instance, set, medium, 
      * person, group or collection
-     * @param object HGKMediaLib_Struct_AdminEntity contains all data of the entity
+     * @param object HGKMediaLib_Struct_EntityObject contains all data of the entity
+     * ATTENTION: this EntityObject can contain further Entities (=tree) but it will
+     * not for the set function
      *
      * @access public
      * @return boolean true if update/insert was ok, otherwise false
      */
-    public function setInformation($sessionId,$id,$AdminEntity);
+    public function setInformation($sessionId,$id,$EntityObject);
   
    /**
      * getNebisData( ) method returns a HGKMediaLib_Struct_Nebis object

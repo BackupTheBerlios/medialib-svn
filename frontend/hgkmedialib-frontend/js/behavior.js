@@ -92,6 +92,47 @@ Behavior.register(
      }
 );
 
+Behavior.addLoadEvent(function() {
+        init();
+                 }); 
+
+//Behavior.register(
+//      "#selector",
+//      function(element) {
+//          element.onmouseover = function(){
+//              element.lock = true;
+//          }
+//          element.onmouseout = function(e){
+//                if (!e) var e = window.event;
+//                var tg = (window.event) ? e.srcElement : e.target;
+//                if (tg.id != element.id){ 
+//                }
+//                var reltg = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+//                
+//                
+//                
+//                while (reltg != tg && reltg.nodeName && reltg.nodeName != 'BODY'){
+//                    document.getElementById("overallSearchField").value = document.getElementById("overallSearchField").value + " :: " + reltg.nodeName;
+//                    reltg= reltg.parentNode;
+//                }
+//                
+//                
+//                if (reltg == tg) {
+//                    return;
+//                };
+//                
+//                if(reltg.id == "body" && tg.id == "selector"){
+//                    var eff = new Effect.Fade(element.id);   
+//                }
+//                
+//                // Mouseout took place when mouse actually left layer
+//                // Handle event
+//                // var eff = new Effect.Fade(element.id);                   
+//          }
+//          
+//     }
+//);
+
 Behavior.register(
       "#browseTreeDiv",
       function(element) {

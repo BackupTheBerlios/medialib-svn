@@ -139,12 +139,27 @@ function renderSearch(type, data)
             return result;
         break;
         case 'advancedsearchbrowser':
-            var result = "Keyword: \"" + data.search + "\"<br/>Displayed " + data.page + " of " + data.pages + "<br/>";
-            for (var i = 1; i <= data.pages; i++)
-            {
-                result += '<a href="" onclick="page(' + i + ', \'' + data.search + '\'); return false;" class="';
-                result += (i == data.page) ? 'redlink' : 'whitelink' ;
-                result += '">' + i + '</a>';
+            if (isSet(data)){
+                var result = "Keyword: \"" + data.search + "\"<br/>Displayed " + data.page + " of " + data.pages + "<br/>";
+                var searchString = "new Array(";
+                var historyString = "";
+                data.search.each(function(value){
+                            searchString += "new Array(\\'" + value[0] +  "\\', \\'" + value[1] + "\\'),"
+                            historyString += "::" + value[0]+"::"+value[1];
+                        });
+                searchString = searchString.substr(0, searchString.length - 1);
+                searchString += ");";
+
+                for (var i = 1; i <= data.pages; i++)
+                {
+                    var history= "search=" + i + historyString;
+                        
+                    result += '<a href="" onclick="dhtmlHistory.add(\''+history+'\'); page(' + i + ', eval(\''+searchString+'\')); return false;" class="';
+                    result += (i == data.page) ? 'redlink' : 'whitelink' ;
+                    result += '">' + i + '</a>';
+                }
+            }else{
+                var result = "";
             }
             
             return result;
